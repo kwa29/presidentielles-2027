@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
 import { SceneCanvas } from "@/components/scene/SceneCanvas";
+import { FranceSilhouette } from "@/components/scene/FranceSilhouette";
 import { useMinWidth } from "@/hooks/useMinWidth";
 import {
   advanceYear,
@@ -78,13 +79,17 @@ export function GameApp() {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-50">
+      <div className="pointer-events-none absolute inset-0 z-0">
         {showScene ? (
-          <div className="absolute inset-x-0 top-0 h-[280px] md:h-[360px]">
+          <div className="absolute inset-x-0 top-0 h-[320px] opacity-80 md:h-[420px]">
             <SceneCanvas stats={stats} mood={mood} />
           </div>
-        ) : null}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/10 via-navy/80 to-navy" />
+        ) : (
+          <div className="absolute inset-x-0 top-0 grid h-[220px] place-items-center opacity-40">
+            <FranceSilhouette className="h-[85%] w-auto" />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/10 via-navy/75 to-navy" />
       </div>
 
       <div className="ticker relative z-10 overflow-hidden border-b border-gold/15 bg-black/30 py-2">

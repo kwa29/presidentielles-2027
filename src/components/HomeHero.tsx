@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { SceneCanvas } from "@/components/scene/SceneCanvas";
+import { FranceSilhouette } from "@/components/scene/FranceSilhouette";
 import { useMinWidth } from "@/hooks/useMinWidth";
 import { createInitialState, countryMood, getStats } from "@/lib/game";
 
@@ -14,13 +15,15 @@ export function HomeHero() {
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 z-0">
         {showScene ? (
-          <div className="absolute inset-0 opacity-45">
+          <div className="absolute inset-0 opacity-80">
             <SceneCanvas stats={stats} mood={mood} />
           </div>
         ) : (
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(201,164,92,0.16),_transparent_58%)]" />
+          <div className="absolute inset-0 grid place-items-center opacity-50">
+            <FranceSilhouette className="h-[70%] w-[70%] max-w-md" />
+          </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/75 to-navy" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/15 via-navy/55 to-navy" />
       </div>
       <div className="relative mx-auto grid max-w-6xl items-end gap-8 px-4 pb-12 pt-10 sm:gap-10 sm:pb-16 sm:pt-16 md:grid-cols-[1.1fr_0.9fr] md:px-6 md:pt-24">
         <div className="min-w-0">
