@@ -19,72 +19,87 @@ export default function HomePage() {
     <>
       <HomeHero />
 
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:py-16 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:py-16 md:px-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
+          Le mandat
+        </p>
+        <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
           Qu&apos;est-ce que Président(e) 2027 ?
         </h2>
+        <div className="gold-rule mt-5 max-w-[8rem]" />
         <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
-          Président(e) 2027 est un jeu de stratégie politique gratuit dans
-          lequel le joueur incarne le président ou la présidente de la
-          République française pour un mandat de cinq ans, de 2027 à 2032. Le
-          jeu se déroule en cinq tours : chaque année, cinq mesures
-          chiffrées — une par courant politique, de l&apos;extrême gauche à
-          l&apos;extrême droite — sont tirées parmi un corpus de {GAME_FACTS.measures}{" "}
-          décrets, et une seule peut être signée. Retraites et TVA servent de
-          modulateurs : chaque camp les tord à sa façon, et la réalité des
-          comptes répond. Huit indicateurs — déficit, dette, chômage,
-          croissance, popularité, sécurité, cohésion sociale et rayonnement
-          international — évoluent en temps réel, avec un code couleur vert,
-          orange ou rouge. Quatorze événements aléatoires réagissent à
-          l&apos;état du pays : grève si la cohésion chute, émeutes si la
-          sécurité s&apos;effondre, dégradation de note si la dette dérape. À
-          la fin du quinquennat, un score composite livre un verdict : mandat
-          réussi, mitigé, ou en échec.
+          Vous incarnez le président ou la présidente pour 2027-2032. Chaque
+          année, cinq mesures — une par courant politique — sont tirées parmi{" "}
+          {GAME_FACTS.measures} décrets. Vous n&apos;en signez qu&apos;une.
+          Retraites et TVA servent de modulateurs. Huit indicateurs évoluent
+          en temps réel. Quatorze événements réagissent à l&apos;état du pays.
+          À la fin : un verdict.
         </p>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-3">
+        <dl className="mt-10 grid gap-6 border-y border-gold/15 py-8 sm:grid-cols-3">
           {[
-            ["5 tours", "Un quinquennat entier, une décision par an."],
-            [`${GAME_FACTS.measures} mesures`, "Cinq courants, retraites et TVA inclus, jamais gratuites."],
-            [`${GAME_FACTS.events} événements`, "Le hasard s'en mêle, comme dans la vraie vie."],
-          ].map(([title, text]) => (
-            <article
-              key={title}
-              className="rounded-2xl border border-gold/20 bg-navy-2 p-5"
-            >
-              <h3 className="font-[family-name:var(--font-display)] text-2xl text-gold-2">
-                {title}
-              </h3>
-              <p className="mt-2 text-sm text-muted">{text}</p>
-            </article>
+            ["5", "tours", "Un quinquennat, une décision par an."],
+            [
+              String(GAME_FACTS.measures),
+              "mesures",
+              "Cinq courants, retraites et TVA inclus.",
+            ],
+            [
+              String(GAME_FACTS.events),
+              "événements",
+              "Le hasard s'en mêle, comme dans la vraie vie.",
+            ],
+          ].map(([num, unit, text]) => (
+            <div key={unit}>
+              <dt className="font-[family-name:var(--font-display)] text-4xl text-gold-2 sm:text-5xl">
+                {num}
+                <span className="ml-2 text-xl text-muted sm:text-2xl">
+                  {unit}
+                </span>
+              </dt>
+              <dd className="mt-2 text-sm text-muted">{text}</dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-8 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
+      <section className="mx-auto max-w-6xl px-4 py-10 md:px-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
+          L&apos;hémicycle
+        </p>
+        <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
           Cinq courants, une réalité
         </h2>
         <p className="mt-4 max-w-3xl text-muted">
-          Chaque année, le conseil des ministres vous pose cinq décrets face à
-          face : extrême gauche, gauche, centre, droite, extrême droite. Signer,
+          Chaque année, le conseil des ministres aligne cinq décrets. Signer,
           c&apos;est frotter une promesse de campagne aux comptes, à la rue et
           à Bruxelles.
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-8 divide-y divide-white/8 border-y border-white/8">
           {CURRENT_ORDER.map((current) => {
             const meta = CURRENT_META[current];
             return (
               <article
                 key={current}
-                className="rounded-2xl border border-white/8 bg-navy-2 p-5"
-                style={{ borderTop: `3px solid ${meta.accent}` }}
+                className="grid gap-2 py-5 sm:grid-cols-[7rem_1fr] sm:items-baseline sm:gap-6"
               >
-                <p className="font-mono text-[10px] tracking-[0.18em] text-gold">
+                <p
+                  className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]"
+                  style={{ color: meta.accent }}
+                >
                   {meta.short}
+                  <span className="mt-1 block font-sans text-sm font-normal tracking-normal text-paper sm:hidden">
+                    {meta.label}
+                  </span>
                 </p>
-                <h3 className="mt-2 text-xl text-paper">{meta.label}</h3>
-                <p className="mt-1 text-sm text-muted">{meta.blurb}</p>
+                <div>
+                  <h3 className="hidden text-lg text-paper sm:block">
+                    {meta.label}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-muted sm:mt-1">
+                    {meta.blurb}
+                  </p>
+                </div>
               </article>
             );
           })}
@@ -92,7 +107,10 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-10 sm:py-12 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
+          Tableau de bord
+        </p>
+        <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
           Les 8 indicateurs suivis en temps réel
         </h2>
         <p className="mt-4 max-w-3xl text-muted">
@@ -104,12 +122,10 @@ export default function HomePage() {
           {STAT_ORDER.map((key) => {
             const meta = STAT_META[key];
             return (
-              <li
-                key={key}
-                className="rounded-2xl border border-white/8 bg-navy-2 p-4"
-              >
+              <li key={key} className="panel rounded-2xl p-4">
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
-                  {meta.unit} · {meta.good === "low" ? "Plus bas = mieux" : "Plus haut = mieux"}
+                  {meta.unit} ·{" "}
+                  {meta.good === "low" ? "Plus bas = mieux" : "Plus haut = mieux"}
                 </p>
                 <h3 className="mt-1 text-lg text-paper">{meta.label}</h3>
                 <p className="mt-1 text-sm text-muted">{meta.description}</p>
@@ -117,27 +133,34 @@ export default function HomePage() {
             );
           })}
         </ul>
-        <div className="table-scroll mt-6 hidden rounded-2xl border border-white/8 sm:block">
+        <div className="table-scroll panel mt-6 hidden rounded-2xl sm:block">
           <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="bg-navy-2 font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
+            <thead className="bg-navy-2/80 font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
               <tr>
-                <th className="px-4 py-3">Indicateur</th>
-                <th className="px-4 py-3">Unité</th>
-                <th className="px-4 py-3">Sens</th>
-                <th className="px-4 py-3">Ce qu&apos;il dit</th>
+                <th className="px-4 py-3.5">Indicateur</th>
+                <th className="px-4 py-3.5">Unité</th>
+                <th className="px-4 py-3.5">Sens</th>
+                <th className="px-4 py-3.5">Ce qu&apos;il dit</th>
               </tr>
             </thead>
             <tbody>
               {STAT_ORDER.map((key) => {
                 const meta = STAT_META[key];
                 return (
-                  <tr key={key} className="border-t border-white/8">
-                    <td className="px-4 py-3 text-paper">{meta.label}</td>
-                    <td className="px-4 py-3 text-muted">{meta.unit}</td>
-                    <td className="px-4 py-3 text-muted">
-                      {meta.good === "low" ? "Plus bas = mieux" : "Plus haut = mieux"}
+                  <tr
+                    key={key}
+                    className="border-t border-white/8 transition hover:bg-white/[0.03]"
+                  >
+                    <td className="px-4 py-3.5 text-paper">{meta.label}</td>
+                    <td className="px-4 py-3.5 text-muted">{meta.unit}</td>
+                    <td className="px-4 py-3.5 text-muted">
+                      {meta.good === "low"
+                        ? "Plus bas = mieux"
+                        : "Plus haut = mieux"}
                     </td>
-                    <td className="px-4 py-3 text-muted">{meta.description}</td>
+                    <td className="px-4 py-3.5 text-muted">
+                      {meta.description}
+                    </td>
                   </tr>
                 );
               })}
@@ -145,34 +168,34 @@ export default function HomePage() {
           </table>
         </div>
         <p className="mt-4">
-          <Link href="/indicateurs" className="text-gold-2 hover:underline">
+          <Link href="/indicateurs" className="link-gold text-sm">
             Lire le détail des seuils →
           </Link>
         </p>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:py-12 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
-          Comment se termine un quinquennat ?
-        </h2>
-        <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
-          Le verdict de Président(e) 2027 repose sur un score composite sur 100
-          points, calculé à partir des huit indicateurs en fin de mandat. Un
-          score d&apos;au moins 75 donne un mandat réussi : réélection au
-          premier tour, France redressée. Entre 45 et 74, le mandat est mitigé :
-          le pays tient, mais l&apos;élection suivante est indécise. Sous 45, le
-          mandat est un échec : déficit et dette ont filé, la cohésion s&apos;est
-          délitée, le camp présidentiel est laminé. Le jeu est entièrement
-          gratuit, sans compte ni publicité obligatoire, et se joue en quelques
-          minutes dans le navigateur.
-        </p>
-        <div className="mt-8">
-          <Link
-            href="/jouer"
-            className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-navy sm:w-auto"
-          >
-            Tenter le quinquennat →
-          </Link>
+      <section className="relative mx-auto max-w-6xl overflow-hidden px-4 py-14 sm:py-16 md:px-6">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(201,164,92,0.08),_transparent_65%)]" />
+        <div className="relative">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
+            Le verdict
+          </p>
+          <h2 className="mt-2 max-w-2xl font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
+            Comment se termine un quinquennat ?
+          </h2>
+          <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
+            Un score composite sur 100. Au moins 75 : mandat réussi. Entre 45
+            et 74 : mitigé. Sous 45 : échec. Gratuit, sans compte, en quelques
+            minutes.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link href="/jouer" className="btn-primary w-full sm:w-auto">
+              Tenter le quinquennat →
+            </Link>
+            <Link href="/comment-jouer" className="btn-ghost w-full sm:w-auto">
+              Lire les règles
+            </Link>
+          </div>
         </div>
       </section>
     </>

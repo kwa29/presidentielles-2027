@@ -25,15 +25,16 @@ export function PageIntro({
         <h1 className="mt-3 font-[family-name:var(--font-display)] text-3xl leading-tight text-paper sm:text-4xl md:text-6xl">
           {title}
         </h1>
+        <div className="gold-rule mt-5 max-w-[8rem]" />
         <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">{lede}</p>
-        <nav className="mt-4 flex flex-wrap gap-x-1 text-xs text-muted" aria-label="Fil d'Ariane">
-          <Link href="/" className="hover:text-gold-2">
+        <nav className="mt-5 flex flex-wrap gap-x-1 text-xs text-muted" aria-label="Fil d'Ariane">
+          <Link href="/" className="link-gold">
             {SITE_NAME}
           </Link>
           {crumbs.map((crumb) => (
             <span key={crumb.path}>
               {" / "}
-              <Link href={crumb.path} className="hover:text-gold-2">
+              <Link href={crumb.path} className="link-gold">
                 {crumb.name}
               </Link>
             </span>
@@ -47,7 +48,7 @@ export function PageIntro({
 export function Prose({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto max-w-3xl px-4 pb-20 md:px-6">
-      <div className="space-y-5 text-base leading-relaxed text-muted [&_h2]:mt-10 [&_h2]:font-[family-name:var(--font-display)] [&_h2]:text-2xl [&_h2]:text-paper sm:[&_h2]:mt-12 sm:[&_h2]:text-3xl [&_h3]:mt-8 [&_h3]:text-lg [&_h3]:text-gold-2 sm:[&_h3]:text-xl [&_strong]:text-paper [&_a]:text-gold-2 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_.table-scroll]:-mx-4 [&_.table-scroll]:px-4 sm:[&_.table-scroll]:mx-0 sm:[&_.table-scroll]:px-0 [&_table]:w-full [&_table]:min-w-[28rem] [&_table]:text-sm [&_th]:pr-3 [&_th]:text-left [&_th]:text-gold-2 [&_td]:border-t [&_td]:border-white/10 [&_td]:py-2 [&_td]:pr-3">
+      <div className="space-y-5 text-base leading-relaxed text-muted [&_h2]:mt-10 [&_h2]:font-[family-name:var(--font-display)] [&_h2]:text-2xl [&_h2]:text-paper sm:[&_h2]:mt-12 sm:[&_h2]:text-3xl [&_h3]:mt-8 [&_h3]:text-lg [&_h3]:text-gold-2 sm:[&_h3]:text-xl [&_strong]:text-paper [&_a]:text-gold-2 [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-gold/40 hover:[&_a]:decoration-gold [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_.table-scroll]:-mx-4 [&_.table-scroll]:px-4 sm:[&_.table-scroll]:mx-0 sm:[&_.table-scroll]:px-0 [&_table]:w-full [&_table]:min-w-[28rem] [&_table]:text-sm [&_th]:pr-3 [&_th]:text-left [&_th]:text-gold-2 [&_td]:border-t [&_td]:border-white/10 [&_td]:py-2.5 [&_td]:pr-3">
         {children}
       </div>
     </div>

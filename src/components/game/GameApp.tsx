@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { SceneCanvas } from "@/components/scene/SceneCanvas";
 import { FranceSilhouette } from "@/components/scene/FranceSilhouette";
 import { useMinWidth } from "@/hooks/useMinWidth";
@@ -15,6 +15,7 @@ import {
   pickCards,
   playTurn,
 } from "@/lib/game";
+import { CURRENT_META, CURRENT_ORDER } from "@/lib/game/currents";
 import { TOTAL_TURNS } from "@/lib/game/types";
 import type { GameEvent, GameState, Measure, Verdict } from "@/lib/game/types";
 import { DecisionLog } from "./DecisionLog";
@@ -38,11 +39,16 @@ export function GameApp() {
   const [event, setEvent] = useState<GameEvent | null>(null);
   const [verdict, setVerdict] = useState<Verdict | null>(null);
   const [locked, setLocked] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   const stats = getStats(state);
   const mood = countryMood(stats);
   const ticker = useMemo(() => [...TICKER, ...TICKER].join("  ·  "), []);
   const showScene = useMinWidth(768);
+
+  useEffect(() => {
+    stageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [phase, state.year]);
 
   function startMandate() {
     const next = createInitialState();
@@ -81,24 +87,27 @@ export function GameApp() {
     <div className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 z-0">
         {showScene ? (
-          <div className="absolute inset-x-0 top-0 h-[320px] opacity-80 md:h-[420px]">
+          <div className="absolute inset-x-0 top-0 h-[300px] opacity-75 md:h-[400px]">
             <SceneCanvas stats={stats} mood={mood} />
           </div>
         ) : (
-          <div className="absolute inset-x-0 top-0 grid h-[220px] place-items-center opacity-40">
+          <div className="absolute inset-x-0 top-0 grid h-[200px] place-items-center opacity-35">
             <FranceSilhouette className="h-[85%] w-auto" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/10 via-navy/75 to-navy" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/10 via-navy/78 to-navy" />
       </div>
 
-      <div className="ticker relative z-10 overflow-hidden border-b border-gold/15 bg-black/30 py-2">
+      <div className="ticker relative z-10 overflow-hidden border-b border-gold/15 bg-black/35 py-2">
         <p className="marquee whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.12em] text-gold-2 sm:text-[11px] sm:tracking-[0.18em]">
           {ticker}
         </p>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 py-6 sm:py-8 md:px-6 md:py-10">
+      <div
+        ref={stageRef}
+        className="relative z-10 mx-auto max-w-6xl scroll-mt-24 px-4 py-6 sm:py-8 md:px-6 md:py-10"
+      >
         <AnimatePresence mode="wait">
           {phase === "briefing" && (
             <motion.section
@@ -113,29 +122,41 @@ export function GameApp() {
               </p>
               <h1 className="mt-3 font-[family-name:var(--font-display)] text-3xl leading-tight text-ink sm:text-4xl md:text-5xl">
                 Vous prenez vos fonctions.
-                <span className="block text-[#7a1d28]">La France ne vous attend pas.</span>
+                <span className="block text-[#7a1d28]">
+                  La France ne vous attend pas.
+                </span>
               </h1>
-              <p className="mt-5 text-base leading-relaxed text-[#3f3628]">
+              <div className="gold-rule my-5 max-w-[7rem] opacity-70" />
+              <p className="text-base leading-relaxed text-[#3f3628]">
                 France 2027 : déficit à 5,4 % du PIB, dette à 116 % du PIB,
-                chômage à 7,5 %, croissance en berne, cohésion fragile,
-                autorité de l&apos;État contestée. Cinq années. Chaque année,
-                cinq décrets — un par courant politique, de l&apos;extrême
-                gauche à l&apos;extrême droite. Vous n&apos;en signez qu&apos;un.
-                Retraites et TVA ne sont jamais loin. Chaque décision a un
-                prix — et le hasard s&apos;en mêle.
+                chômage à 7,5 %, croissance en berne. Cinq années. Chaque année,
+                cinq décrets — un par courant, de l&apos;extrême gauche à
+                l&apos;extrême droite. Vous n&apos;en signez qu&apos;un.
+                Retraites et TVA ne sont jamais loin.
               </p>
-              <ul className="mt-6 grid gap-3 text-sm text-[#4d4333] sm:grid-cols-2">
-                <li>🟥 Extrême gauche</li>
-                <li>🟧 Gauche</li>
-                <li>🟨 Centre</li>
-                <li>🟦 Droite</li>
-                <li className="sm:col-span-2">⬛ Extrême droite</li>
+              <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+                {CURRENT_ORDER.map((current) => {
+                  const meta = CURRENT_META[current];
+                  return (
+                    <li
+                      key={current}
+                      className="flex items-center gap-2.5 rounded-xl border border-[#c9a45c]/25 bg-white/30 px-3 py-2 text-sm text-[#4d4333]"
+                    >
+                      <span
+                        className="h-2 w-2 shrink-0 rounded-full"
+                        style={{ background: meta.accent }}
+                        aria-hidden
+                      />
+                      {meta.label}
+                    </li>
+                  );
+                })}
               </ul>
               <button
                 type="button"
                 data-testid="start-mandate"
                 onClick={startMandate}
-                className="mt-8 flex min-h-11 w-full items-center justify-center rounded-full bg-bleu px-6 py-3 text-sm font-semibold text-paper shadow-[0_10px_24px_rgba(0,38,84,0.35)] transition hover:brightness-110 sm:w-auto"
+                className="btn-navy mt-8 w-full sm:w-auto"
               >
                 Prendre mes fonctions →
               </button>
@@ -149,7 +170,7 @@ export function GameApp() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
             >
-              <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+              <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
                 <div className="min-w-0">
                   <p
                     className="font-mono text-[10px] uppercase tracking-[0.12em] text-gold sm:text-[11px] sm:tracking-[0.28em]"
@@ -163,8 +184,25 @@ export function GameApp() {
                   >
                     {state.year}
                   </h1>
+                  <div
+                    className="progress-rail mt-3 w-40 sm:w-52"
+                    aria-label={`Progression du mandat : année ${state.turn} sur ${TOTAL_TURNS}`}
+                  >
+                    {Array.from({ length: TOTAL_TURNS }, (_, i) => (
+                      <span
+                        key={i}
+                        className={
+                          i + 1 < state.turn
+                            ? "done"
+                            : i + 1 === state.turn
+                              ? "current"
+                              : undefined
+                        }
+                      />
+                    ))}
+                  </div>
                 </div>
-                <span className="rounded-full border border-gold/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-gold-2 sm:text-[11px] sm:tracking-[0.18em]">
+                <span className="rounded-full border border-gold/30 bg-navy-2/60 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-gold-2 sm:text-[11px] sm:tracking-[0.18em]">
                   Conseil des ministres
                 </span>
               </div>
@@ -175,11 +213,11 @@ export function GameApp() {
               <h2 className="mt-8 font-[family-name:var(--font-display)] text-2xl text-paper sm:text-3xl">
                 Quelle mesure engagez-vous cette année ?
               </h2>
-              <p className="mt-2 text-sm text-muted">
+              <p className="mt-2 max-w-2xl text-sm text-muted">
                 Cinq courants. Une signature. Les propositions se frottent à
                 Bercy, à la rue et aux marchés.
               </p>
-              <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+              <div className="mt-5 grid gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-5">
                 {cards.map((measure) => (
                   <MeasureCard
                     key={measure.id}
@@ -198,19 +236,24 @@ export function GameApp() {
           {phase === "event" && event && (
             <motion.section
               key={`event-${state.year}-${event.id}`}
-              initial={{ opacity: 0, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.985 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
             >
               <StatGrid stats={stats} deltas={state.lastDeltas} />
               <article
-                className="mt-6 overflow-hidden rounded-2xl border border-[#4a2233] bg-gradient-to-br from-[#2a1620] to-[#120b12] p-5 sm:rounded-3xl sm:p-6 md:p-8"
+                className="mt-6 overflow-hidden rounded-2xl border border-warn/30 bg-gradient-to-br from-[#2a1620] via-[#1a1018] to-[#120b12] p-5 shadow-[0_0_0_1px_rgba(227,179,65,0.08)] sm:rounded-3xl sm:p-6 md:p-8"
                 data-testid="event-flash"
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-warn sm:text-[11px] sm:tracking-[0.28em]">
-                  Flash AFP · {state.year}
-                </p>
-                <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl leading-tight text-paper sm:text-3xl md:text-4xl">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-warn/15 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-warn">
+                    Breaking
+                  </span>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-warn/80 sm:text-[11px] sm:tracking-[0.22em]">
+                    Flash AFP · {state.year}
+                  </p>
+                </div>
+                <h2 className="mt-4 font-[family-name:var(--font-display)] text-2xl leading-tight text-paper sm:text-3xl md:text-4xl">
                   {event.text}
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
@@ -221,7 +264,7 @@ export function GameApp() {
                   type="button"
                   data-testid="continue-mandate"
                   onClick={continueAfterEvent}
-                  className="mt-6 flex min-h-11 w-full items-center justify-center rounded-full bg-gold px-5 py-3 text-center text-sm font-semibold text-navy sm:w-auto"
+                  className="btn-primary mt-6 w-full sm:w-auto"
                 >
                   {isMandateOver(state)
                     ? "Lire le verdict du quinquennat →"
@@ -262,7 +305,8 @@ export function GameApp() {
               <p className="mt-2 text-base italic text-[#6a5a38] sm:text-lg">
                 On vous appellera : {verdict.nickname}.
               </p>
-              <p className="mt-5 text-base leading-relaxed text-[#3f3628]">
+              <div className="gold-rule my-5 max-w-[7rem] opacity-70" />
+              <p className="text-base leading-relaxed text-[#3f3628]">
                 {verdict.text}
               </p>
               <div className="mt-6">
@@ -273,7 +317,7 @@ export function GameApp() {
                   type="button"
                   data-testid="replay-mandate"
                   onClick={startMandate}
-                  className="flex min-h-11 w-full items-center justify-center rounded-full bg-bleu px-5 py-3 text-sm font-semibold text-paper sm:w-auto"
+                  className="btn-navy w-full sm:w-auto"
                 >
                   Rejouer un mandat →
                 </button>
@@ -310,7 +354,7 @@ function ShareButton({ verdict }: { verdict: Verdict }) {
     <button
       type="button"
       onClick={share}
-      className="flex min-h-11 w-full items-center justify-center rounded-full border border-[#c9a45c] px-5 py-3 text-sm font-semibold text-ink sm:w-auto"
+      className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-[#c9a45c] px-5 py-3 text-sm font-semibold text-ink transition hover:bg-[#c9a45c]/12 sm:w-auto"
     >
       {copied ? "Copié dans le journal !" : "Partager le verdict"}
     </button>

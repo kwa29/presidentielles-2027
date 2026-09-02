@@ -9,10 +9,8 @@ export default function NotFound() {
       <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl leading-tight text-paper sm:text-5xl">
         Cette allée de l&apos;Élysée n&apos;existe pas.
       </h1>
-      <Link
-        href="/"
-        className="mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-gold px-5 py-3 text-sm font-semibold text-navy sm:w-auto"
-      >
+      <div className="gold-rule mx-auto mt-6 max-w-[6rem]" />
+      <Link href="/" className="btn-primary mt-8 w-full sm:w-auto">
         Retour au palais
       </Link>
     </div>

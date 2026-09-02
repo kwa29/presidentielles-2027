@@ -89,9 +89,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-navy text-paper">
         <JsonLd data={jsonLdGraph()} />
-        <div className="tricolor" />
+        <a href="#contenu" className="skip-link">
+          Aller au contenu
+        </a>
+        <div className="tricolor" aria-hidden />
         <SiteHeader />
-        <main className="relative z-10 min-w-0 flex-1">{children}</main>
+        <main id="contenu" className="relative z-10 min-w-0 flex-1">
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>

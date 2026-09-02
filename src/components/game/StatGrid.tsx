@@ -16,6 +16,12 @@ const BAR: Record<string, string> = {
   bad: "bg-bad",
 };
 
+const TONE_RING: Record<string, string> = {
+  good: "border-good/25",
+  warn: "border-warn/25",
+  bad: "border-bad/30",
+};
+
 function widthFor(key: StatKey, value: number) {
   const meta = STAT_META[key];
   if (meta.max) return Math.max(0, Math.min(100, value));
@@ -41,15 +47,18 @@ export function StatGrid({
         return (
           <article
             key={key}
-            className="min-w-0 overflow-hidden rounded-xl border border-white/8 bg-navy-2/80 px-2.5 py-2 sm:px-3 sm:py-2.5"
+            className={`panel min-w-0 overflow-hidden rounded-xl border px-2.5 py-2 sm:px-3 sm:py-2.5 ${TONE_RING[tone]}`}
           >
             <div className="flex items-center justify-between gap-1">
               <p className="truncate font-mono text-[9px] uppercase tracking-[0.12em] text-muted sm:text-[10px] sm:tracking-[0.18em]">
                 {meta.short}
               </p>
               {delta ? (
-                <span
-                  className={`shrink-0 font-mono text-[10px] ${
+                <motion.span
+                  key={`${key}-${delta}`}
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`shrink-0 font-mono text-[10px] font-semibold tabular-nums ${
                     (meta.good === "low" ? delta < 0 : delta > 0)
                       ? "text-good"
                       : "text-bad"
@@ -57,7 +66,7 @@ export function StatGrid({
                 >
                   {delta > 0 ? "+" : ""}
                   {delta}
-                </span>
+                </motion.span>
               ) : null}
             </div>
             <p className="mt-1 flex min-w-0 items-baseline gap-1">
@@ -72,9 +81,9 @@ export function StatGrid({
             </p>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-black/40">
               <motion.div
-                className={`h-full ${BAR[tone]}`}
+                className={`h-full rounded-full ${BAR[tone]}`}
                 animate={{ width: `${widthFor(key, stats[key])}%` }}
-                transition={{ duration: 0.45 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               />
             </div>
           </article>
@@ -86,7 +95,7 @@ export function StatGrid({
 
 export function ToneLegend() {
   return (
-    <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.08em] text-muted sm:tracking-[0.16em]">
+    <p className="mt-2.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted sm:tracking-[0.16em]">
       <span className="text-good">Vert</span> dans les clous ·{" "}
       <span className="text-warn">Orange</span> sous tension ·{" "}
       <span className="text-bad">Rouge</span> alerte
