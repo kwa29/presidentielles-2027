@@ -169,7 +169,7 @@ export function CouncilScene({
 
     const land = new THREE.Group();
     land.add(metropole, corse, coastline(METROPOLE), coastline(CORSE));
-    land.scale.setScalar(1.15);
+    land.scale.setScalar(1.38);
     land.position.y = 0.04;
 
     const orbs = STAT_ORDER.map((keyName, index) => {
@@ -220,8 +220,8 @@ export function CouncilScene({
     const resize = new ResizeObserver(setSize);
     resize.observe(host);
 
-    const from = new THREE.Vector3(0, 1.55, 6.5);
-    const to = new THREE.Vector3(0, 4.35, 3.55);
+    const from = new THREE.Vector3(0, 2.2, 6.2);
+    const to = new THREE.Vector3(0, 5.1, 3.2);
     const look = new THREE.Vector3(0, 0.12, 0);
 
     let frame = 0;
@@ -251,7 +251,7 @@ export function CouncilScene({
       });
 
       if (!reduceMotion) {
-        pivot.rotation.y = elapsed * 0.045;
+        pivot.rotation.y = elapsed * 0.028;
       }
 
       renderer.render(scene, camera);

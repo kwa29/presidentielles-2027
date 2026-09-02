@@ -15,15 +15,15 @@ export function HomeHero() {
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 z-0">
         {showScene ? (
-          <div className="absolute inset-0 opacity-80">
+          <div className="absolute inset-0 opacity-90">
             <SceneCanvas stats={stats} mood={mood} />
           </div>
         ) : (
-          <div className="absolute inset-0 grid place-items-center opacity-50">
-            <FranceSilhouette className="h-[70%] w-[70%] max-w-md" />
+          <div className="absolute inset-0 grid place-items-center opacity-70">
+            <FranceSilhouette className="h-[78%] w-[78%] max-w-lg" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/15 via-navy/55 to-navy" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-navy/40 to-navy" />
       </div>
       <div className="relative mx-auto grid max-w-6xl items-end gap-8 px-4 pb-12 pt-10 sm:gap-10 sm:pb-16 sm:pt-16 md:grid-cols-[1.1fr_0.9fr] md:px-6 md:pt-24">
         <div className="min-w-0">
