@@ -18,6 +18,8 @@ export function MeasureCard({
   return (
     <button
       type="button"
+      data-testid="measure-card"
+      data-measure-id={measure.id}
       disabled={disabled}
       onClick={() => onChoose(measure)}
       className="decree group relative flex h-full flex-col rounded-2xl p-4 text-left transition hover:-translate-y-1 hover:border-gold disabled:cursor-not-allowed disabled:opacity-60"

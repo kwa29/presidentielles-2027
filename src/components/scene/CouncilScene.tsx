@@ -83,7 +83,12 @@ export function CouncilScene({
     camera.position.set(0, 2.4, 5.2);
     camera.lookAt(0, 0.2, 0);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch {
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.domElement.style.pointerEvents = "none";
     renderer.domElement.style.display = "block";

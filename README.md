@@ -29,7 +29,13 @@ Ouvrir [http://localhost:3000](http://localhost:3000) puis [Jouer](http://localh
 - `public/llms.txt` et `public/llms-full.txt`
 - Pages citables : `/comment-jouer`, `/mesures`, `/indicateurs`, `/a-propos`
 
-## Variable d'environnement
+## Tests
+
+```bash
+npm test          # unitaires (Vitest)
+npm run test:e2e  # E2E (Playwright / Chromium)
+npm run test:all  # les deux
+```
 
 ```
 NEXT_PUBLIC_SITE_URL=https://presidentielles-2027.fr

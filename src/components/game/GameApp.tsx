@@ -121,6 +121,7 @@ export function GameApp() {
               </ul>
               <button
                 type="button"
+                data-testid="start-mandate"
                 onClick={startMandate}
                 className="mt-8 rounded-full bg-bleu px-6 py-3 text-sm font-semibold text-paper shadow-[0_10px_24px_rgba(0,38,84,0.35)] transition hover:brightness-110"
               >
@@ -138,10 +139,16 @@ export function GameApp() {
             >
               <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
                 <div>
-                  <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-gold">
+                  <p
+                    className="font-mono text-[11px] uppercase tracking-[0.28em] text-gold"
+                    data-testid="game-turn"
+                  >
                     Année {state.turn} / {TOTAL_TURNS}
                   </p>
-                  <h1 className="font-[family-name:var(--font-display)] text-4xl text-paper md:text-5xl">
+                  <h1
+                    className="font-[family-name:var(--font-display)] text-4xl text-paper md:text-5xl"
+                    data-testid="game-year"
+                  >
                     {state.year}
                   </h1>
                 </div>
@@ -180,7 +187,10 @@ export function GameApp() {
               exit={{ opacity: 0 }}
             >
               <StatGrid stats={stats} deltas={state.lastDeltas} />
-              <article className="mt-6 overflow-hidden rounded-3xl border border-[#4a2233] bg-gradient-to-br from-[#2a1620] to-[#120b12] p-6 md:p-8">
+              <article
+                className="mt-6 overflow-hidden rounded-3xl border border-[#4a2233] bg-gradient-to-br from-[#2a1620] to-[#120b12] p-6 md:p-8"
+                data-testid="event-flash"
+              >
                 <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-warn">
                   Flash AFP · {state.year}
                 </p>
@@ -193,6 +203,7 @@ export function GameApp() {
                 </p>
                 <button
                   type="button"
+                  data-testid="continue-mandate"
                   onClick={continueAfterEvent}
                   className="mt-6 rounded-full bg-gold px-5 py-3 text-sm font-semibold text-navy"
                 >
@@ -210,11 +221,15 @@ export function GameApp() {
           {phase === "verdict" && verdict && (
             <motion.section
               key="verdict"
+              data-testid="verdict"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               className="decree mx-auto max-w-3xl rounded-3xl p-6 md:p-10"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#8a6d2e]">
+              <p
+                className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#8a6d2e]"
+                data-testid="verdict-score"
+              >
                 14 mai 2032 · Fin du quinquennat · Score {verdict.score}/100
               </p>
               <h1
@@ -240,6 +255,7 @@ export function GameApp() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <button
                   type="button"
+                  data-testid="replay-mandate"
                   onClick={startMandate}
                   className="rounded-full bg-bleu px-5 py-3 text-sm font-semibold text-paper"
                 >
