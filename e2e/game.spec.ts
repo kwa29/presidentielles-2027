@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 async function playOneYear(page: Page) {
-  await expect(page.getByTestId("measure-card")).toHaveCount(4);
+  await expect(page.getByTestId("measure-card")).toHaveCount(5);
   await page.getByTestId("measure-card").first().click();
   await expect(page.getByTestId("event-flash")).toBeVisible();
   await page.getByTestId("continue-mandate").click();
@@ -48,6 +48,6 @@ test.describe("quinquennat", () => {
 
     await page.getByTestId("replay-mandate").click();
     await expect(page.getByTestId("game-year")).toHaveText("2027");
-    await expect(page.getByTestId("measure-card")).toHaveCount(4);
+    await expect(page.getByTestId("measure-card")).toHaveCount(5);
   });
 });

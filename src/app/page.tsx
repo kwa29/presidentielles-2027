@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { HomeHero } from "@/components/HomeHero";
 import { GAME_FACTS } from "@/lib/game";
-import { PILLAR_META } from "@/lib/game/measures";
+import { CURRENT_META, CURRENT_ORDER } from "@/lib/game/currents";
 import { STAT_META, STAT_ORDER } from "@/lib/game/stats";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 
@@ -27,22 +27,25 @@ export default function HomePage() {
           Président(e) 2027 est un jeu de stratégie politique gratuit dans
           lequel le joueur incarne le président ou la présidente de la
           République française pour un mandat de cinq ans, de 2027 à 2032. Le
-          jeu se déroule en cinq tours : chaque année, quatre mesures
-          chiffrées sont tirées au hasard parmi un corpus de {GAME_FACTS.measures}{" "}
-          décrets, et une seule peut être signée. Huit indicateurs — déficit,
-          dette, chômage, croissance, popularité, sécurité, cohésion sociale et
-          rayonnement international — évoluent en temps réel, avec un code
-          couleur vert, orange ou rouge. Quatorze événements aléatoires
-          réagissent à l&apos;état du pays : grève si la cohésion chute, émeutes
-          si la sécurité s&apos;effondre, dégradation de note si la dette
-          dérape. À la fin du quinquennat, un score composite livre un verdict
-          : mandat réussi, mitigé, ou en échec.
+          jeu se déroule en cinq tours : chaque année, cinq mesures
+          chiffrées — une par courant politique, de l&apos;extrême gauche à
+          l&apos;extrême droite — sont tirées parmi un corpus de {GAME_FACTS.measures}{" "}
+          décrets, et une seule peut être signée. Retraites et TVA servent de
+          modulateurs : chaque camp les tord à sa façon, et la réalité des
+          comptes répond. Huit indicateurs — déficit, dette, chômage,
+          croissance, popularité, sécurité, cohésion sociale et rayonnement
+          international — évoluent en temps réel, avec un code couleur vert,
+          orange ou rouge. Quatorze événements aléatoires réagissent à
+          l&apos;état du pays : grève si la cohésion chute, émeutes si la
+          sécurité s&apos;effondre, dégradation de note si la dette dérape. À
+          la fin du quinquennat, un score composite livre un verdict : mandat
+          réussi, mitigé, ou en échec.
         </p>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
             ["5 tours", "Un quinquennat entier, une décision par an."],
-            [`${GAME_FACTS.measures} mesures`, "Quatre piliers, toutes chiffrées, jamais gratuites."],
+            [`${GAME_FACTS.measures} mesures`, "Cinq courants, retraites et TVA inclus, jamais gratuites."],
             [`${GAME_FACTS.events} événements`, "Le hasard s'en mêle, comme dans la vraie vie."],
           ].map(([title, text]) => (
             <article
@@ -60,21 +63,31 @@ export default function HomePage() {
 
       <section className="mx-auto max-w-6xl px-4 py-8 md:px-6">
         <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
-          Les quatre piliers du mandat
+          Cinq courants, une réalité
         </h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {Object.values(PILLAR_META).map((pillar) => (
-            <article
-              key={pillar.seal}
-              className="rounded-2xl border border-white/8 bg-navy-2 p-5"
-            >
-              <p className="font-mono text-[10px] tracking-[0.22em] text-gold">
-                {pillar.seal}
-              </p>
-              <h3 className="mt-2 text-xl text-paper">{pillar.label}</h3>
-              <p className="mt-1 text-sm text-muted">{pillar.blurb}</p>
-            </article>
-          ))}
+        <p className="mt-4 max-w-3xl text-muted">
+          Chaque année, le conseil des ministres vous pose cinq décrets face à
+          face : extrême gauche, gauche, centre, droite, extrême droite. Signer,
+          c&apos;est frotter une promesse de campagne aux comptes, à la rue et
+          à Bruxelles.
+        </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {CURRENT_ORDER.map((current) => {
+            const meta = CURRENT_META[current];
+            return (
+              <article
+                key={current}
+                className="rounded-2xl border border-white/8 bg-navy-2 p-5"
+                style={{ borderTop: `3px solid ${meta.accent}` }}
+              >
+                <p className="font-mono text-[10px] tracking-[0.18em] text-gold">
+                  {meta.short}
+                </p>
+                <h3 className="mt-2 text-xl text-paper">{meta.label}</h3>
+                <p className="mt-1 text-sm text-muted">{meta.blurb}</p>
+              </article>
+            );
+          })}
         </div>
       </section>
 

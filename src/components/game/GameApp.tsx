@@ -113,15 +113,18 @@ export function GameApp() {
               <p className="mt-5 text-base leading-relaxed text-[#3f3628]">
                 France 2027 : déficit à 5,4 % du PIB, dette à 116 % du PIB,
                 chômage à 7,5 %, croissance en berne, cohésion fragile,
-                autorité de l&apos;État contestée. Cinq années. Une mesure par
-                an, tirée parmi quatre décrets. Chaque décision a un prix — et
-                le hasard s&apos;en mêle.
+                autorité de l&apos;État contestée. Cinq années. Chaque année,
+                cinq décrets — un par courant politique, de l&apos;extrême
+                gauche à l&apos;extrême droite. Vous n&apos;en signez qu&apos;un.
+                Retraites et TVA ne sont jamais loin. Chaque décision a un
+                prix — et le hasard s&apos;en mêle.
               </p>
               <ul className="mt-6 grid gap-3 text-sm text-[#4d4333] sm:grid-cols-2">
-                <li>💶 Économie & Budget</li>
-                <li>🛡️ Sécurité & Ordre public</li>
-                <li>🤝 Social & Cohésion</li>
-                <li>🌍 International & Rayonnement</li>
+                <li>🟥 Extrême gauche</li>
+                <li>🟧 Gauche</li>
+                <li>🟨 Centre</li>
+                <li>🟦 Droite</li>
+                <li className="sm:col-span-2">⬛ Extrême droite</li>
               </ul>
               <button
                 type="button"
@@ -167,7 +170,11 @@ export function GameApp() {
               <h2 className="mt-8 font-[family-name:var(--font-display)] text-2xl text-paper sm:text-3xl">
                 Quelle mesure engagez-vous cette année ?
               </h2>
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <p className="mt-2 text-sm text-muted">
+                Cinq courants. Une signature. Les propositions se frottent à
+                Bercy, à la rue et aux marchés.
+              </p>
+              <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                 {cards.map((measure) => (
                   <MeasureCard
                     key={measure.id}

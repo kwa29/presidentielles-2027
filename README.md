@@ -16,7 +16,8 @@ Ouvrir [http://localhost:3000](http://localhost:3000) puis [Jouer](http://localh
 ## Contenu
 
 - 5 tours = 1 quinquennat (2027-2031 joués, verdict en 2032)
-- 30 mesures chiffrées, 4 piliers
+- 100 mesures chiffrées, 5 courants politiques
+- Retraites et TVA comme leviers dans chaque camp
 - 8 indicateurs en temps réel (vert / orange / rouge)
 - 14 événements conditionnels
 - Journal de mandat + verdict composite

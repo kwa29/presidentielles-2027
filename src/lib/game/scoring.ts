@@ -1,4 +1,5 @@
-import type { GameState, Pillar, Verdict } from "./types";
+import type { Current, GameState, Verdict } from "./types";
+import { CURRENT_ORDER } from "./currents";
 
 export function computeScore(state: GameState): number {
   let score = 0;
@@ -13,37 +14,44 @@ export function computeScore(state: GameState): number {
   return score;
 }
 
-function dominantPillar(state: GameState): Pillar {
-  const entries = Object.entries(state.pillarCounts) as [Pillar, number][];
+function dominantCurrent(state: GameState): Current {
+  const entries = CURRENT_ORDER.map(
+    (current) => [current, state.currentCounts[current]] as const,
+  );
   entries.sort((a, b) => b[1] - a[1]);
-  return entries[0]?.[0] ?? "economie";
+  return entries[0]?.[0] ?? "centre";
 }
 
 const NICKNAMES: Record<string, string> = {
-  success_economie: "L'austère qui a tenu Bercy",
-  success_securite: "Le shérif de la République",
-  success_social: "Le/la président(e) du quotidien",
-  success_international: "La voix de la France dans le monde",
-  mixed_economie: "Le comptable de l'Élysée",
-  mixed_securite: "Le pompier de Beauvau",
-  mixed_social: "Le conciliateur de Matignon",
-  mixed_international: "Le diplomate sans orchestre",
-  failure_economie: "Le/la président(e) des déficits",
-  failure_securite: "Celui/celle que la rue a débordé",
-  failure_social: "Le mandat des colères",
-  failure_international: "L'isolé(e) de Bruxelles",
+  "success_extreme-gauche": "Le/la président(e) de la rupture",
+  success_gauche: "Le social-démocrate qui a tenu",
+  success_centre: "L'équilibriste de l'Élysée",
+  success_droite: "L'austère qui a tenu Bercy",
+  "success_extreme-droite": "Le souverain qui a verrouillé le pays",
+  "mixed_extreme-gauche": "Le/la tribun(e) sans caisse",
+  mixed_gauche: "Le conciliateur de la gauche",
+  mixed_centre: "L'en même temps de survie",
+  mixed_droite: "Le comptable de l'Élysée",
+  "mixed_extreme-droite": "Le/la président(e) des frontières, pas des comptes",
+  "failure_extreme-gauche": "Le mandat des caisses vides",
+  failure_gauche: "Le social qui n'a pas payé",
+  failure_centre: "L'en même temps qui n'a convaincu personne",
+  failure_droite: "Le/la président(e) des déficits",
+  "failure_extreme-droite": "L'isolé(e) de Bruxelles",
 };
 
 export function computeVerdict(state: GameState): Verdict {
   const score = computeScore(state);
-  const pillar = dominantPillar(state);
+  const current = dominantCurrent(state);
+  const band = score >= 75 ? "success" : score >= 45 ? "mixed" : "failure";
+  const nickname = NICKNAMES[`${band}_${current}`] ?? NICKNAMES[`mixed_${current}`];
 
   if (score >= 75) {
     return {
       kind: "success",
       score,
       title: "Mandat réussi — La France est redressée",
-      nickname: NICKNAMES[`success_${pillar}`],
+      nickname,
       text: "Le déficit est maîtrisé, la croissance repart, et malgré les crises, l'autorité de l'État est respectée. Vous êtes réélu(e) au premier tour avec une large avance, salué(e) comme le ou la Président(e) qui a su redonner confiance aux Français et à l'Europe.",
     };
   }
@@ -53,7 +61,7 @@ export function computeVerdict(state: GameState): Verdict {
       kind: "mixed",
       score,
       title: "Mandat mitigé — Un pays stabilisé, pas transformé",
-      nickname: NICKNAMES[`mixed_${pillar}`],
+      nickname,
       text: "Certains indicateurs se sont améliorés, d'autres se sont dégradés. La France tient debout mais reste fragile. Vous vous présentez à un second mandat dans une élection très disputée, sans garantie de victoire.",
     };
   }
@@ -62,7 +70,7 @@ export function computeVerdict(state: GameState): Verdict {
     kind: "failure",
     score,
     title: "Mandat en échec — La crise s'est aggravée",
-    nickname: NICKNAMES[`failure_${pillar}`],
+    nickname,
     text: "Le déficit et la dette ont continué de filer, la cohésion sociale s'est délitée, et votre popularité s'est effondrée. Les marchés et Bruxelles s'inquiètent. Votre camp est laminé à l'élection suivante.",
   };
 }

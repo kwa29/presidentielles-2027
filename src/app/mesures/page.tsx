@@ -1,48 +1,46 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageIntro, Prose } from "@/components/PageIntro";
-import { MEASURES, PILLAR_META } from "@/lib/game/measures";
+import { CURRENT_META, CURRENT_ORDER } from "@/lib/game/currents";
+import { MEASURES } from "@/lib/game/measures";
 import { STAT_META, isPositiveImpact } from "@/lib/game/stats";
-import type { Pillar, StatKey } from "@/lib/game/types";
+import type { Current, StatKey } from "@/lib/game/types";
 
 export const metadata: Metadata = {
-  title: "Les 30 mesures du quinquennat",
+  title: "Les 100 mesures du quinquennat",
   description:
-    "Catalogue des 30 mesures chiffrées de Président(e) 2027, réparties en quatre piliers : Économie, Sécurité, Social et International.",
+    "Catalogue des 100 mesures chiffrées de Président(e) 2027, réparties en cinq courants politiques — extrême gauche, gauche, centre, droite, extrême droite — avec retraites et TVA comme leviers.",
   alternates: { canonical: "/mesures" },
 };
-
-const ORDER: Pillar[] = ["economie", "securite", "social", "international"];
 
 export default function MeasuresPage() {
   return (
     <>
       <PageIntro
         eyebrow="Corpus du jeu"
-        title="Les 30 mesures chiffrées"
-        lede="Chaque décret a un effet immédiat sur le déficit, la dette, le chômage, la croissance, la popularité, la sécurité, la cohésion ou le rayonnement. Aucun n'est neutre."
-        crumbs={[{ name: "Les 30 mesures", path: "/mesures" }]}
+        title="Les 100 mesures chiffrées"
+        lede="Chaque décret frotte une promesse de campagne à la réalité des comptes. Retraites et TVA reviennent dans chaque camp, tordues dans un sens différent. Aucun n'est neutre."
+        crumbs={[{ name: "Les 100 mesures", path: "/mesures" }]}
       />
       <Prose>
         <h2>Comment sont construites les mesures ?</h2>
         <p>
-          Président(e) 2027 contient exactement 30 mesures jouables, réparties
-          en quatre piliers : Économie & Budget, Sécurité & Ordre public,
-          Social & Cohésion, International & Rayonnement. À chaque année du
-          quinquennat, le jeu tire quatre mesures encore inutilisées et le
-          joueur n&apos;en signe qu&apos;une. Une mesure déjà signée ne revient
-          pas. Les effets sont volontairement caricaturaux et pédagogiques :
-          ils n&apos;ont pas vocation à prédire un vrai budget de l&apos;État.
-          Ils servent à rendre visible le trade-off politique — ce que coûte
-          une réforme populaire, ce que rapporte une austérité, ce que pèse un
-          réarmement.
+          Président(e) 2027 contient exactement 100 mesures jouables, vingt par
+          courant politique : extrême gauche, gauche, centre, droite, extrême
+          droite. À chaque année du quinquennat, le jeu tire une mesure encore
+          inutilisée dans chacun des cinq courants. Le joueur n&apos;en signe
+          qu&apos;une. Une mesure déjà signée ne revient pas. Les effets sont
+          volontairement caricaturaux et pédagogiques : ils n&apos;ont pas
+          vocation à prédire un vrai budget de l&apos;État. Ils servent à
+          rendre visible le trade-off — ce que coûte une retraite à 60 ans, ce
+          que rapporte un point de TVA, ce que pèse une préférence nationale.
         </p>
 
-        {ORDER.map((pillar) => {
-          const group = MEASURES.filter((m) => m.pillar === pillar);
-          const meta = PILLAR_META[pillar];
+        {CURRENT_ORDER.map((current: Current) => {
+          const group = MEASURES.filter((m) => m.current === current);
+          const meta = CURRENT_META[current];
           return (
-            <section key={pillar}>
+            <section key={current}>
               <h2>
                 {meta.label}{" "}
                 <span className="text-base text-gold">({group.length})</span>
@@ -50,7 +48,12 @@ export default function MeasuresPage() {
               <p>{meta.blurb}</p>
               {group.map((measure) => (
                 <article key={measure.id} className="mt-6">
-                  <h3>{measure.title}</h3>
+                  <h3>
+                    {measure.title}{" "}
+                    <span className="text-sm font-normal text-gold">
+                      {measure.cat}
+                    </span>
+                  </h3>
                   <p>{measure.desc}</p>
                   <p>
                     {(Object.entries(measure.fx) as [StatKey, number][])

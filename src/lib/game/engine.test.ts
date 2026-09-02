@@ -64,18 +64,28 @@ describe("clampStats", () => {
 });
 
 describe("pickCards", () => {
-  it("tire 4 mesures encore disponibles", () => {
+  it("tire 5 mesures, une par courant politique", () => {
     const cards = pickCards(createInitialState());
-    expect(cards).toHaveLength(4);
-    expect(new Set(cards.map((c) => c.id)).size).toBe(4);
+    expect(cards).toHaveLength(5);
+    expect(cards.map((card) => card.current)).toEqual([
+      "extreme-gauche",
+      "gauche",
+      "centre",
+      "droite",
+      "extreme-droite",
+    ]);
+    expect(new Set(cards.map((c) => c.id)).size).toBe(5);
   });
 
   it("n'offre jamais une mesure déjà signée", () => {
-    const used = MEASURES.slice(0, 26).map((m) => m.id);
+    const used = MEASURES.filter((m) => m.current === "centre")
+      .slice(0, 3)
+      .map((m) => m.id);
     const state = { ...createInitialState(), usedMeasureIds: used };
     const cards = pickCards(state);
-    expect(cards).toHaveLength(4);
+    expect(cards).toHaveLength(5);
     expect(cards.every((card) => !used.includes(card.id))).toBe(true);
+    expect(cards.map((card) => card.current)).toContain("centre");
   });
 });
 
@@ -103,6 +113,7 @@ describe("playTurn", () => {
 
     expect(state.usedMeasureIds).toEqual(["retraite-65"]);
     expect(state.pillarCounts.economie).toBe(1);
+    expect(state.currentCounts.droite).toBe(1);
     expect(state.deficit).toBeLessThan(5.4);
     expect(state.popularite).toBeLessThan(52);
     expect(state.cohesion).toBeLessThan(45);

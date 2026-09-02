@@ -25,7 +25,7 @@ test.describe("responsive", () => {
     await page.goto("/jouer");
     await expect(page.getByTestId("start-mandate")).toBeVisible();
     await page.getByTestId("start-mandate").click();
-    await expect(page.getByTestId("measure-card")).toHaveCount(4);
+    await expect(page.getByTestId("measure-card")).toHaveCount(5);
     await assertNoPageOverflow(page);
   });
 
@@ -40,7 +40,7 @@ test.describe("responsive", () => {
   test("le catalogue de mesures tient en 375px", async ({ page }) => {
     await page.goto("/mesures");
     await expect(
-      page.getByRole("heading", { name: /Les 30 mesures/ }),
+      page.getByRole("heading", { name: /Les 100 mesures/ }),
     ).toBeVisible();
     await assertNoPageOverflow(page);
   });

@@ -4,7 +4,7 @@ import { GameApp } from "@/components/game/GameApp";
 export const metadata: Metadata = {
   title: "Jouer",
   description:
-    "Jouez à Président(e) 2027 : prenez vos fonctions à l'Élysée, signez une mesure par an pendant cinq ans, et affrontez les événements qui réagissent à l'état du pays.",
+    "Jouez à Président(e) 2027 : cinq courants politiques, 100 mesures, retraites et TVA. Une signature par an pendant cinq ans.",
   alternates: { canonical: "/jouer" },
 };
 

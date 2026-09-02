@@ -9,8 +9,9 @@ import {
 } from "./engine";
 import { computeVerdict } from "./scoring";
 
-export { MEASURES } from "./measures";
+export { MEASURES, PILLAR_META } from "./measures";
 export { EVENTS } from "./events";
+export { CURRENT_META, CURRENT_ORDER } from "./currents";
 export { STAT_META, STAT_ORDER, evalTone, formatStat } from "./stats";
 export {
   createInitialState,
@@ -31,6 +32,7 @@ export type {
   Verdict,
   StatKey,
   Pillar,
+  Current,
 } from "./types";
 
 export const GAME_FACTS = {
@@ -40,14 +42,15 @@ export const GAME_FACTS = {
   events: EVENTS.length,
   indicators: 8,
   pillars: 4,
+  currents: 5,
   startingDeficit: 5.4,
   startingDebt: 116,
   startingUnemployment: 7.5,
 } as const;
 
 export function assertGameData() {
-  if (MEASURES.length !== 30) {
-    throw new Error(`Expected 30 measures, got ${MEASURES.length}`);
+  if (MEASURES.length !== 100) {
+    throw new Error(`Expected 100 measures, got ${MEASURES.length}`);
   }
   if (EVENTS.length !== 14) {
     throw new Error(`Expected 14 events, got ${EVENTS.length}`);

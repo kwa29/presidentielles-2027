@@ -42,6 +42,8 @@ export const metadata: Metadata = {
     "La Bataille du Budget",
     "simulation politique",
     "jeu éducatif France",
+    "retraites TVA 2027",
+    "programmes candidats 2027",
     "déficit dette chômage",
   ],
   authors: [{ name: SITE_NAME }],

@@ -5,7 +5,7 @@ import { PageIntro, Prose } from "@/components/PageIntro";
 export const metadata: Metadata = {
   title: "Comment jouer",
   description:
-    "Règles de Président(e) 2027 : cinq tours pour un quinquennat, quatre mesures tirées au hasard, huit indicateurs, quatorze événements, un verdict final.",
+    "Règles de Président(e) 2027 : cinq tours, cinq courants politiques, 100 mesures, retraites et TVA, huit indicateurs, quatorze événements.",
   alternates: { canonical: "/comment-jouer" },
 };
 
@@ -15,7 +15,7 @@ export default function HowToPlayPage() {
       <PageIntro
         eyebrow="Règles du jeu"
         title="Comment jouer à Président(e) 2027"
-        lede="Un quinquennat tient en cinq clics. Le piège, c'est que chacun de ces clics a un prix — et que le pays réagit sans vous demander votre avis."
+        lede="Un quinquennat tient en cinq clics. Chaque clic frotte une promesse de candidat — retraites, TVA, frontières, SMIC — à la réalité des comptes."
         crumbs={[{ name: "Comment jouer", path: "/comment-jouer" }]}
       />
       <Prose>
@@ -34,9 +34,10 @@ export default function HowToPlayPage() {
         <h2>Comment se déroule un tour ?</h2>
         <ol>
           <li>
-            Quatre mesures sont tirées au hasard parmi les 30 décrets encore
-            disponibles. Chaque mesure appartient à l&apos;un des quatre
-            piliers : Économie, Sécurité, Social, International.
+            Cinq mesures sont tirées, une par courant politique : extrême
+            gauche, gauche, centre, droite, extrême droite. Le corpus compte
+            100 décrets. Retraites et TVA reviennent dans chaque camp, avec un
+            calibrage différent.
           </li>
           <li>
             Vous en signez une. Ses effets s&apos;appliquent immédiatement aux
@@ -59,12 +60,12 @@ export default function HowToPlayPage() {
           Président(e) 2027 reprend l&apos;esprit de <em>La Bataille du
           Budget</em> de Rayan Nezzar : aucune mesure n&apos;est un cadeau. Une
           austérité qui fait baisser le déficit fait aussi chuter la
-          popularité. Un recrutement de policiers rassure l&apos;opinion mais
-          creuse Bercy. Un grand plan industriel dore le rayonnement et la
-          croissance, puis aggrave le déficit. Le jeu n&apos;est pas un
-          simulateur officiel : les chiffres sont simplifiés, assumés comme
-          ludiques, et calibrés pour forcer l&apos;arbitrage plutôt que la
-          solution magique.
+          popularité. Une retraite à 60 ans électrise la rue et vide Bercy. Un
+          point de TVA supplémentaire remplit les caisses et pèse sur le
+          caddie. Un recrutement de policiers rassure l&apos;opinion mais
+          creuse le budget. Le jeu n&apos;est pas un simulateur officiel : les
+          chiffres sont simplifiés, assumés comme ludiques, et calibrés pour
+          forcer l&apos;arbitrage plutôt que la solution magique.
         </p>
 
         <h2>Comment obtenir un mandat réussi</h2>

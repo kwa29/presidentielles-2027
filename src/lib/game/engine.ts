@@ -1,8 +1,10 @@
 import { EVENTS } from "./events";
 import { MEASURES } from "./measures";
+import { emptyCurrentCounts } from "./currents";
 import { mergeImpacts } from "./stats";
 import {
   CARDS_PER_TURN,
+  CURRENT_ORDER,
   START_YEAR,
   TOTAL_TURNS,
   type GameEvent,
@@ -32,6 +34,7 @@ export function createInitialState(): GameState {
       social: 0,
       international: 0,
     },
+    currentCounts: emptyCurrentCounts(),
     log: [],
     lastDeltas: {},
   };
@@ -82,7 +85,21 @@ function shuffle<T>(items: T[]): T[] {
 
 export function pickCards(state: GameState, count = CARDS_PER_TURN): Measure[] {
   const pool = MEASURES.filter((m) => !state.usedMeasureIds.includes(m.id));
-  return shuffle(pool).slice(0, Math.min(count, pool.length));
+  const cards: Measure[] = [];
+
+  for (const current of CURRENT_ORDER) {
+    const fromCurrent = shuffle(pool.filter((m) => m.current === current));
+    if (fromCurrent[0]) cards.push(fromCurrent[0]);
+    if (cards.length >= count) break;
+  }
+
+  if (cards.length < count) {
+    const taken = new Set(cards.map((card) => card.id));
+    const rest = shuffle(pool.filter((m) => !taken.has(m.id)));
+    cards.push(...rest.slice(0, count - cards.length));
+  }
+
+  return cards;
 }
 
 export function pickEvent(stats: GameStats): GameEvent {
@@ -103,6 +120,10 @@ export function playTurn(state: GameState, measure: Measure) {
     pillarCounts: {
       ...state.pillarCounts,
       [measure.pillar]: state.pillarCounts[measure.pillar] + 1,
+    },
+    currentCounts: {
+      ...state.currentCounts,
+      [measure.current]: state.currentCounts[measure.current] + 1,
     },
     lastDeltas: deltas,
     log: [

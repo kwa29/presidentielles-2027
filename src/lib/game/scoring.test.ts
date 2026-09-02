@@ -64,6 +64,13 @@ describe("computeVerdict", () => {
           social: 1,
           international: 0,
         },
+        currentCounts: {
+          "extreme-gauche": 0,
+          gauche: 0,
+          centre: 0,
+          droite: 3,
+          "extreme-droite": 0,
+        },
       }),
     );
     expect(verdict.kind).toBe("success");

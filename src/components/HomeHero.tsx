@@ -25,7 +25,7 @@ export function HomeHero() {
       <div className="relative mx-auto grid max-w-6xl items-end gap-8 px-4 pb-12 pt-10 sm:gap-10 sm:pb-16 sm:pt-16 md:grid-cols-[1.1fr_0.9fr] md:px-6 md:pt-24">
         <div className="min-w-0">
           <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-gold sm:text-[11px] sm:tracking-[0.28em]">
-            Jeu gratuit · 5 tours · 30 mesures · 14 événements
+            Jeu gratuit · 5 tours · 100 mesures · 5 courants
           </p>
           <h1 className="mt-4 font-[family-name:var(--font-display)] text-[2.35rem] leading-[0.95] text-paper sm:text-5xl md:text-7xl">
             Vous êtes
@@ -35,8 +35,8 @@ export function HomeHero() {
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
             Président(e) 2027 est un jeu de stratégie politique : un
-            quinquennat, une décision par an, huit indicateurs qui ne vous
-            pardonneront rien. Inspiré de <em>La Bataille du Budget</em>,
+            quinquennat, une décision par an, cinq courants qui se frottent à
+            la réalité des comptes. Inspiré de <em>La Bataille du Budget</em>,
             transposé à l&apos;Élysée.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

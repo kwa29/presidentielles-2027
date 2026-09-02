@@ -30,4 +30,4 @@ for (let i = 0; i < 25; i++) {
   if (state.deficit < -1) throw new Error("Déficit sous le plancher");
 }
 
-console.log("OK — 25 mandats simulés, 30 mesures, 14 événements, logique intacte.");
+console.log("OK — 25 mandats simulés, 100 mesures, 5 courants, 14 événements, logique intacte.");

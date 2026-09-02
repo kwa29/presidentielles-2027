@@ -1,15 +1,16 @@
 # Président(e) 2027 — briefing étendu
 
-> Président(e) 2027 is a free French-language political strategy game. The player is President of France for 2027-2032. One policy per year, chosen among four randomly drawn measures. Random events then hit the country. A composite score at the end issues a verdict.
+> Président(e) 2027 is a free French-language political strategy game. The player is President of France for 2027-2032. One policy per year, chosen among five measures — one from each political current. The point is to rub campaign promises against fiscal reality. Random events then hit the country. A composite score at the end issues a verdict.
 
 ## Game loop
 
 1. Briefing: France 2027 starts with deficit 5.4% of GDP, debt 116%, unemployment 7.5%, growth 0.9%, popularity 52/100, security 54, cohesion 53, standing 50.
-2. Each year, 4 unused measures are drawn from a pool of 30.
-3. The player signs one decree. Impacts apply immediately.
-4. One event is drawn among those whose condition is true. Always-on events include a minor scandal, an energy shock, a heatwave, and a crime-news cycle. Conditional events include a general strike (cohesion < 45), riots (security < 45), a credit-rating downgrade (debt > 118), a censure motion (popularity < 35), INSEE slowdown (growth < 0.5), EU-summit isolation (standing < 40), and positive loops when popularity, growth, deficit or cohesion are healthy.
-5. Debt also drifts with the deficit each time stats are clamped.
-6. After 5 signed decrees, a 100-point composite score is computed.
+2. Each year, 5 unused measures are drawn, one per current: extrême gauche, gauche, centre, droite, extrême droite. The pool has 100 decrees (20 per current).
+3. Pensions (retraites) and VAT (TVA) appear in every current, twisted differently: retirement at 60 vs 62 vs 64 vs 65; VAT at 0% on essentials vs social VAT vs +1 point to fill Bercy.
+4. The player signs one decree. Impacts apply immediately.
+5. One event is drawn among those whose condition is true. Always-on events include a minor scandal, an energy shock, a heatwave, and a crime-news cycle. Conditional events include a general strike (cohesion < 45), riots (security < 45), a credit-rating downgrade (debt > 118), a censure motion (popularity < 35), INSEE slowdown (growth < 0.5), EU-summit isolation (standing < 40), and positive loops when popularity, growth, deficit or cohesion are healthy.
+6. Debt also drifts with the deficit each time stats are clamped.
+7. After 5 signed decrees, a 100-point composite score is computed. The verdict nickname follows the dominant political current of the mandate.
 
 ## Scoring
 
@@ -33,11 +34,11 @@
 
 ## Design intent
 
-The game is satirical-pedagogical. Every policy has a cost. Austerity can cut the deficit and wreck popularity. Hiring police boosts security and the polls but widens the deficit. Industrial bets raise growth and standing while Bercy pays. The random events punish a country already in the red, which is the intended "the dice pile on" feel of the original budget game.
+The game is satirical-pedagogical. Campaign platforms collide with Bercy, the street, and Brussels. A retirement age of 60 electrifies cohesion and wrecks the deficit. A VAT hike fills the Treasury and empties the shopping cart. National preference hardens security and isolates France. The random events punish a country already in the red, which is the intended "the dice pile on" feel of the original budget game.
 
 ## What it is not
 
-Not an official simulator. Not a campaign tool. Not affiliated with the French state, any party, or Rayan Nezzar's commercial products. Numbers are toy-scale.
+Not an official simulator. Not a campaign tool. Not affiliated with the French state, any party, or Rayan Nezzar's commercial products. Numbers are toy-scale. The five currents are recognisable caricatures, not endorsements.
 
 ## Canonical pages
 
