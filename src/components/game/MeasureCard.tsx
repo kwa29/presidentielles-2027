@@ -1,7 +1,6 @@
 "use client";
 
 import { isPositiveImpact, STAT_META } from "@/lib/game/stats";
-import { CURRENT_META } from "@/lib/game/currents";
 import type { Measure, StatKey } from "@/lib/game/types";
 
 export function MeasureCard({
@@ -13,30 +12,18 @@ export function MeasureCard({
   onChoose: (measure: Measure) => void;
   disabled?: boolean;
 }) {
-  const current = CURRENT_META[measure.current];
-
   return (
     <button
       type="button"
       data-testid="measure-card"
       data-measure-id={measure.id}
-      data-current={measure.current}
       disabled={disabled}
       onClick={() => onChoose(measure)}
-      className="decree group relative flex h-full min-w-0 flex-col rounded-2xl border-l-4 p-4 text-left outline-offset-2 transition duration-200 [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:shadow-[0_22px_44px_rgba(0,0,0,0.28)] disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0"
-      style={{ borderLeftColor: current.accent }}
+      className="decree group relative flex h-full min-w-0 flex-col rounded-2xl p-4 text-left outline-offset-2 transition duration-200 [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:shadow-[0_22px_44px_rgba(0,0,0,0.28)] disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0"
     >
-      <div className="flex items-start justify-between gap-3">
-        <p
-          className="min-w-0 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.18em]"
-          style={{ color: current.accent }}
-        >
-          {current.label}
-        </p>
-        <span className="shrink-0 rounded-full border border-[#c9a45c]/45 bg-white/35 px-2 py-1 font-mono text-[9px] tracking-[0.12em] text-[#8a6d2e]">
-          {measure.cat}
-        </span>
-      </div>
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7a6540] sm:tracking-[0.18em]">
+        {measure.cat}
+      </p>
       <h3 className="mt-2.5 font-[family-name:var(--font-display)] text-xl leading-tight text-ink sm:text-2xl xl:text-[1.35rem]">
         {measure.title}
       </h3>

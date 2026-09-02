@@ -44,3 +44,21 @@ export const emptyCurrentCounts = (): Record<Current, number> =>
     Current,
     number
   >;
+
+export function getDominantCurrent(
+  counts: Record<Current, number>,
+): Current {
+  const entries = CURRENT_ORDER.map(
+    (current) => [current, counts[current]] as const,
+  );
+  entries.sort((a, b) => b[1] - a[1]);
+  return entries[0]?.[0] ?? "centre";
+}
+
+export function getCurrentBreakdown(counts: Record<Current, number>) {
+  return CURRENT_ORDER.map((current) => ({
+    current,
+    count: counts[current],
+    ...CURRENT_META[current],
+  })).filter((row) => row.count > 0);
+}

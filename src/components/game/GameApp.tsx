@@ -15,9 +15,13 @@ import {
   pickCards,
   playTurn,
 } from "@/lib/game";
-import { CURRENT_META, CURRENT_ORDER } from "@/lib/game/currents";
 import { TOTAL_TURNS } from "@/lib/game/types";
 import type { GameEvent, GameState, Measure, Verdict } from "@/lib/game/types";
+import {
+  CURRENT_META,
+  getCurrentBreakdown,
+  getDominantCurrent,
+} from "@/lib/game/currents";
 import { DecisionLog } from "./DecisionLog";
 import { MeasureCard } from "./MeasureCard";
 import { StatGrid, ToneLegend } from "./StatGrid";
@@ -134,24 +138,6 @@ export function GameApp() {
                 l&apos;extrême droite. Vous n&apos;en signez qu&apos;un.
                 Retraites et TVA ne sont jamais loin.
               </p>
-              <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-                {CURRENT_ORDER.map((current) => {
-                  const meta = CURRENT_META[current];
-                  return (
-                    <li
-                      key={current}
-                      className="flex items-center gap-2.5 rounded-xl border border-[#c9a45c]/25 bg-white/30 px-3 py-2 text-sm text-[#4d4333]"
-                    >
-                      <span
-                        className="h-2 w-2 shrink-0 rounded-full"
-                        style={{ background: meta.accent }}
-                        aria-hidden
-                      />
-                      {meta.label}
-                    </li>
-                  );
-                })}
-              </ul>
               <button
                 type="button"
                 data-testid="start-mandate"
@@ -214,8 +200,8 @@ export function GameApp() {
                 Quelle mesure engagez-vous cette année ?
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-muted">
-                Cinq courants. Une signature. Les propositions se frottent à
-                Bercy, à la rue et aux marchés.
+                Cinq propositions sur la table. Une seule signature. Chaque
+                décret a un prix.
               </p>
               <div className="mt-5 grid gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-5">
                 {cards.map((measure) => (
@@ -305,6 +291,7 @@ export function GameApp() {
               <p className="mt-2 text-base italic text-[#6a5a38] sm:text-lg">
                 On vous appellera : {verdict.nickname}.
               </p>
+              <MajorityCurrent counts={state.currentCounts} />
               <div className="gold-rule my-5 max-w-[7rem] opacity-70" />
               <p className="text-base leading-relaxed text-[#3f3628]">
                 {verdict.text}
@@ -321,7 +308,12 @@ export function GameApp() {
                 >
                   Rejouer un mandat →
                 </button>
-                <ShareButton verdict={verdict} />
+                <ShareButton
+                  verdict={verdict}
+                  majorityLabel={
+                    CURRENT_META[getDominantCurrent(state.currentCounts)].label
+                  }
+                />
               </div>
             </motion.section>
           )}
@@ -331,11 +323,65 @@ export function GameApp() {
   );
 }
 
-function ShareButton({ verdict }: { verdict: Verdict }) {
+function MajorityCurrent({
+  counts,
+}: {
+  counts: GameState["currentCounts"];
+}) {
+  const dominant = getDominantCurrent(counts);
+  const meta = CURRENT_META[dominant];
+  const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+  const majorityCount = counts[dominant];
+  const breakdown = getCurrentBreakdown(counts);
+
+  return (
+    <div
+      className="mt-5 rounded-2xl border border-[#c9a45c]/35 bg-white/35 p-4"
+      data-testid="verdict-current"
+    >
+      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8a6d2e]">
+        Courant majoritaire du mandat
+      </p>
+      <p
+        className="mt-2 font-[family-name:var(--font-display)] text-2xl leading-tight"
+        style={{ color: meta.accent }}
+      >
+        {meta.label}
+      </p>
+      <p className="mt-1 text-sm text-[#4d4333]">
+        {majorityCount} décret{majorityCount > 1 ? "s" : ""} sur {total} —{" "}
+        {meta.blurb}
+      </p>
+      <ul className="mt-4 flex flex-wrap gap-2">
+        {breakdown.map((row) => (
+          <li
+            key={row.current}
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#c9a45c]/30 bg-white/50 px-2.5 py-1 font-mono text-[10px] text-[#4d4333]"
+          >
+            <span
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ background: row.accent }}
+              aria-hidden
+            />
+            {row.label} · {row.count}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function ShareButton({
+  verdict,
+  majorityLabel,
+}: {
+  verdict: Verdict;
+  majorityLabel: string;
+}) {
   const [copied, setCopied] = useState(false);
 
   async function share() {
-    const text = `${verdict.title} (${verdict.score}/100) — ${verdict.nickname}. J'ai tenté de redresser la France sur Président(e) 2027.`;
+    const text = `${verdict.title} (${verdict.score}/100) — ${verdict.nickname}. Courant majoritaire : ${majorityLabel}. J'ai tenté de redresser la France sur Président(e) 2027.`;
     try {
       if (navigator.share) {
         await navigator.share({ title: "Président(e) 2027", text });

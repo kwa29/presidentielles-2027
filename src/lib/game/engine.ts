@@ -99,7 +99,7 @@ export function pickCards(state: GameState, count = CARDS_PER_TURN): Measure[] {
     cards.push(...rest.slice(0, count - cards.length));
   }
 
-  return cards;
+  return shuffle(cards);
 }
 
 export function pickEvent(stats: GameStats): GameEvent {

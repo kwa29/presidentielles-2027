@@ -64,16 +64,10 @@ describe("clampStats", () => {
 });
 
 describe("pickCards", () => {
-  it("tire 5 mesures, une par courant politique", () => {
+  it("tire 5 mesures, une par courant, dans un ordre mélangé", () => {
     const cards = pickCards(createInitialState());
     expect(cards).toHaveLength(5);
-    expect(cards.map((card) => card.current)).toEqual([
-      "extreme-gauche",
-      "gauche",
-      "centre",
-      "droite",
-      "extreme-droite",
-    ]);
+    expect(new Set(cards.map((c) => c.current)).size).toBe(5);
     expect(new Set(cards.map((c) => c.id)).size).toBe(5);
   });
 

@@ -1,5 +1,5 @@
-import type { Current, GameState, Verdict } from "./types";
-import { CURRENT_ORDER } from "./currents";
+import type { GameState, Verdict } from "./types";
+import { getDominantCurrent } from "./currents";
 
 export function computeScore(state: GameState): number {
   let score = 0;
@@ -12,14 +12,6 @@ export function computeScore(state: GameState): number {
   score += state.cohesion >= 55 ? 12 : state.cohesion >= 40 ? 6 : 0;
   score += state.rayonnement >= 55 ? 10 : state.rayonnement >= 40 ? 5 : 0;
   return score;
-}
-
-function dominantCurrent(state: GameState): Current {
-  const entries = CURRENT_ORDER.map(
-    (current) => [current, state.currentCounts[current]] as const,
-  );
-  entries.sort((a, b) => b[1] - a[1]);
-  return entries[0]?.[0] ?? "centre";
 }
 
 const NICKNAMES: Record<string, string> = {
@@ -42,7 +34,7 @@ const NICKNAMES: Record<string, string> = {
 
 export function computeVerdict(state: GameState): Verdict {
   const score = computeScore(state);
-  const current = dominantCurrent(state);
+  const current = getDominantCurrent(state.currentCounts);
   const band = score >= 75 ? "success" : score >= 45 ? "mixed" : "failure";
   const nickname = NICKNAMES[`${band}_${current}`] ?? NICKNAMES[`mixed_${current}`];
 

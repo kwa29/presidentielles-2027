@@ -11,7 +11,7 @@ import { computeVerdict } from "./scoring";
 
 export { MEASURES, PILLAR_META } from "./measures";
 export { EVENTS } from "./events";
-export { CURRENT_META, CURRENT_ORDER } from "./currents";
+export { CURRENT_META, CURRENT_ORDER, getDominantCurrent } from "./currents";
 export { STAT_META, STAT_ORDER, evalTone, formatStat } from "./stats";
 export {
   createInitialState,
