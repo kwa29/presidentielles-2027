@@ -33,7 +33,7 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-0.5 xl:flex">
           {NAV.map((item) => {
             const active =
               item.href === "/"
@@ -43,7 +43,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-full px-3 py-1.5 text-sm transition ${
+                className={`rounded-full px-2.5 py-1.5 text-sm transition ${
                   active
                     ? "bg-gold/15 text-gold-2"
                     : "text-muted hover:text-paper"
@@ -64,7 +64,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/30 text-paper lg:hidden"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/30 text-paper xl:hidden"
           aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
           aria-expanded={open}
           aria-controls="site-mobile-nav"
@@ -77,7 +77,7 @@ export function SiteHeader() {
       {open && (
         <div
           id="site-mobile-nav"
-          className="border-t border-gold/15 bg-navy-2 px-4 py-3 lg:hidden"
+          className="border-t border-gold/15 bg-navy-2 px-4 py-3 xl:hidden"
         >
           {NAV.map((item) => (
             <Link

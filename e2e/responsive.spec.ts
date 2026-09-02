@@ -36,4 +36,12 @@ test.describe("responsive", () => {
     ).toBeVisible();
     await assertNoPageOverflow(page);
   });
+
+  test("le catalogue de mesures tient en 375px", async ({ page }) => {
+    await page.goto("/mesures");
+    await expect(
+      page.getByRole("heading", { name: /Les 30 mesures/ }),
+    ).toBeVisible();
+    await assertNoPageOverflow(page);
+  });
 });
