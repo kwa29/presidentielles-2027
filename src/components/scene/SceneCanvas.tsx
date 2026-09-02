@@ -7,9 +7,7 @@ const CouncilScene = dynamic(
   () => import("./CouncilScene").then((mod) => mod.CouncilScene),
   {
     ssr: false,
-            loading: () => (
-      <div className="h-full w-full bg-transparent" />
-    ),
+    loading: () => <div className="h-full w-full bg-transparent" />,
   },
 );
 

@@ -1,9 +1,8 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
-import { Float, OrbitControls } from "@react-three/drei";
-import { useMemo } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { Timer } from "three/src/core/Timer.js";
 import { STAT_ORDER, evalTone } from "@/lib/game/stats";
 import type { GameStats, StatKey } from "@/lib/game/types";
 
@@ -41,52 +40,7 @@ function franceShape() {
   return shape;
 }
 
-function FranceMesh({ mood }: { mood: number }) {
-  const geometry = useMemo(
-    () => new THREE.ExtrudeGeometry(franceShape(), { depth: 0.12, bevelEnabled: false }),
-    [],
-  );
-  return (
-    <mesh geometry={geometry} rotation={[-Math.PI / 2.4, 0, 0]} position={[0, 0.15, 0]}>
-      <meshStandardMaterial
-        color={mood > 0.62 ? "#c9a45c" : mood > 0.4 ? "#8d7a4a" : "#6b3a3a"}
-        metalness={0.55}
-        roughness={0.35}
-        emissive={mood > 0.55 ? "#3a2a10" : "#1a0a0a"}
-      />
-    </mesh>
-  );
-}
-
-function IndicatorOrbs({ stats }: { stats: GameStats }) {
-  return (
-    <group>
-      {STAT_ORDER.map((key, index) => {
-        const angle = (index / STAT_ORDER.length) * Math.PI * 2 - Math.PI / 2;
-        const x = Math.cos(angle) * 2.15;
-        const z = Math.sin(angle) * 2.15;
-        const color = TONE_COLOR[evalTone(key as StatKey, stats[key as StatKey])];
-        const scale = 0.12 + Math.min(0.16, Math.abs(stats[key as StatKey]) / 400);
-        return (
-          <Float key={key} speed={1.2 + index * 0.05} floatIntensity={0.25}>
-            <mesh position={[x, 0.55, z]}>
-              <sphereGeometry args={[scale, 24, 24]} />
-              <meshStandardMaterial
-                color={color}
-                emissive={color}
-                emissiveIntensity={0.55}
-                roughness={0.2}
-                metalness={0.3}
-              />
-            </mesh>
-          </Float>
-        );
-      })}
-    </group>
-  );
-}
-
-const DUST_POSITIONS = (() => {
+function dustPositions() {
   const arr = new Float32Array(600);
   let seed = 2027;
   const next = () => {
@@ -99,17 +53,6 @@ const DUST_POSITIONS = (() => {
     arr[i * 3 + 2] = (next() - 0.5) * 8;
   }
   return arr;
-})();
-
-function Dust() {
-  return (
-    <points>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[DUST_POSITIONS, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.018} color="#e8d5a3" transparent opacity={0.55} />
-    </points>
-  );
 }
 
 export function CouncilScene({
@@ -119,39 +62,167 @@ export function CouncilScene({
   stats: GameStats;
   mood: number;
 }) {
-  return (
-    <Canvas
-      camera={{ position: [0, 2.4, 5.2], fov: 42 }}
-      gl={{ antialias: true, alpha: true }}
-      className="h-full w-full"
-      style={{ pointerEvents: "none" }}
-    >
-      <color attach="background" args={["#07111f"]} />
-      <fog attach="fog" args={["#07111f", 6, 14]} />
-      <ambientLight intensity={0.45} />
-      <directionalLight position={[4, 6, 3]} intensity={1.2} color="#e8d5a3" />
-      <pointLight position={[-3, 2, -2]} intensity={1.1} color="#002654" />
-      <pointLight position={[3, 1, 2]} intensity={0.7} color="#ce1126" />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]}>
-        <cylinderGeometry args={[2.6, 2.6, 0.12, 48]} />
-        <meshStandardMaterial color="#13243d" metalness={0.4} roughness={0.5} />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
-        <ringGeometry args={[2.35, 2.55, 64]} />
-        <meshStandardMaterial color="#c9a45c" emissive="#3a2d12" />
-      </mesh>
-      <FranceMesh mood={mood} />
-      <IndicatorOrbs stats={stats} />
-      <Dust />
-      <OrbitControls
-        enablePan={false}
-        enableZoom={false}
-        enableRotate={false}
-        autoRotate
-        autoRotateSpeed={0.6}
-        minPolarAngle={0.9}
-        maxPolarAngle={1.35}
-      />
-    </Canvas>
-  );
+  const hostRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef(stats);
+  const moodRef = useRef(mood);
+
+  useEffect(() => {
+    statsRef.current = stats;
+    moodRef.current = mood;
+  }, [stats, mood]);
+
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#07111f");
+    scene.fog = new THREE.Fog("#07111f", 6, 14);
+
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 40);
+    camera.position.set(0, 2.4, 5.2);
+    camera.lookAt(0, 0.2, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.domElement.style.pointerEvents = "none";
+    renderer.domElement.style.display = "block";
+    renderer.domElement.style.width = "100%";
+    renderer.domElement.style.height = "100%";
+    host.appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+    const key = new THREE.DirectionalLight(0xe8d5a3, 1.2);
+    key.position.set(4, 6, 3);
+    scene.add(key);
+    const bleu = new THREE.PointLight(0x002654, 1.1);
+    bleu.position.set(-3, 2, -2);
+    scene.add(bleu);
+    const rouge = new THREE.PointLight(0xce1126, 0.7);
+    rouge.position.set(3, 1, 2);
+    scene.add(rouge);
+
+    const table = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.6, 2.6, 0.12, 48),
+      new THREE.MeshStandardMaterial({ color: "#13243d", metalness: 0.4, roughness: 0.5 }),
+    );
+    table.rotation.x = -Math.PI / 2;
+    table.position.y = -0.02;
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(2.35, 2.55, 64),
+      new THREE.MeshStandardMaterial({ color: "#c9a45c", emissive: "#3a2d12" }),
+    );
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = 0.05;
+
+    const franceMat = new THREE.MeshStandardMaterial({
+      color: "#c9a45c",
+      metalness: 0.55,
+      roughness: 0.35,
+      emissive: "#3a2a10",
+    });
+    const france = new THREE.Mesh(
+      new THREE.ExtrudeGeometry(franceShape(), { depth: 0.12, bevelEnabled: false }),
+      franceMat,
+    );
+    france.rotation.x = -Math.PI / 2.4;
+    france.position.y = 0.15;
+
+    const orbs = STAT_ORDER.map((keyName, index) => {
+      const angle = (index / STAT_ORDER.length) * Math.PI * 2 - Math.PI / 2;
+      const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(0.14, 24, 24),
+        new THREE.MeshStandardMaterial({
+          color: "#e3b341",
+          emissive: "#e3b341",
+          emissiveIntensity: 0.55,
+          roughness: 0.2,
+          metalness: 0.3,
+        }),
+      );
+      mesh.userData = { key: keyName, angle, phase: index * 0.7 };
+      return mesh;
+    });
+
+    const dustGeo = new THREE.BufferGeometry();
+    dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPositions(), 3));
+    const dust = new THREE.Points(
+      dustGeo,
+      new THREE.PointsMaterial({
+        size: 0.018,
+        color: "#e8d5a3",
+        transparent: true,
+        opacity: 0.55,
+      }),
+    );
+
+    const timer = new Timer();
+    timer.connect(document);
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const pivot = new THREE.Group();
+    pivot.add(table, ring, france, ...orbs, dust);
+    scene.add(pivot);
+
+    const setSize = () => {
+      const { clientWidth, clientHeight } = host;
+      const width = Math.max(1, clientWidth);
+      const height = Math.max(1, clientHeight);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height, false);
+    };
+    setSize();
+    const resize = new ResizeObserver(setSize);
+    resize.observe(host);
+
+    let frame = 0;
+    const tick = (timestamp: number) => {
+      timer.update(timestamp);
+      const elapsed = timer.getElapsed();
+      const currentStats = statsRef.current;
+      const currentMood = moodRef.current;
+
+      franceMat.color.set(currentMood > 0.62 ? "#c9a45c" : currentMood > 0.4 ? "#8d7a4a" : "#6b3a3a");
+      franceMat.emissive.set(currentMood > 0.55 ? "#3a2a10" : "#1a0a0a");
+
+      orbs.forEach((orb) => {
+        const keyName = orb.userData.key as StatKey;
+        const tone = evalTone(keyName, currentStats[keyName]);
+        const color = TONE_COLOR[tone];
+        const material = orb.material as THREE.MeshStandardMaterial;
+        material.color.set(color);
+        material.emissive.set(color);
+        const angle = orb.userData.angle as number;
+        const bob = reduceMotion ? 0 : Math.sin(elapsed * 1.4 + orb.userData.phase) * 0.08;
+        orb.position.set(Math.cos(angle) * 2.15, 0.55 + bob, Math.sin(angle) * 2.15);
+      });
+
+      if (!reduceMotion) {
+        pivot.rotation.y = elapsed * 0.01;
+      }
+
+      renderer.render(scene, camera);
+      frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      resize.disconnect();
+      timer.disconnect();
+      renderer.dispose();
+      renderer.domElement.remove();
+      scene.traverse((obj) => {
+        if (obj instanceof THREE.Mesh || obj instanceof THREE.Points) {
+          obj.geometry.dispose();
+          const material = obj.material;
+          if (Array.isArray(material)) material.forEach((item) => item.dispose());
+          else material.dispose();
+        }
+      });
+    };
+  }, []);
+
+  return <div ref={hostRef} className="h-full w-full" />;
 }
