@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+:root {
+  --navy: #07111f;
+  --navy-2: #0c1a2e;
+  --navy-3: #13243d;
+  --ink: #16110a;
+  --paper: #f3ead6;
+  --paper-2: #e7dcc3;
+  --gold: #c9a45c;
+  --gold-2: #e8d5a3;
+  --bleu: #002654;
+  --rouge: #ce1126;
+  --good: #3ecf8e;
+  --warn: #e3b341;
+  --bad: #e5545b;
+  --muted: #9fb0cc;
+}
+
+@theme inline {
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-navy-3: var(--navy-3);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-gold: var(--gold);
+  --color-gold-2: var(--gold-2);
+  --color-bleu: var(--bleu);
+  --color-rouge: var(--rouge);
+  --color-good: var(--good);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --color-muted: var(--muted);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--navy);
+  color: var(--paper);
+  font-family: var(--font-sans), sans-serif;
+}
+
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.tricolor {
+  height: 8px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--bleu) 0 33.33%,
+    #f6f1e6 33.33% 66.66%,
+    var(--rouge) 66.66% 100%
+  );
+}
+
+.decree {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 28%),
+    var(--paper);
+  color: var(--ink);
+  border: 1px solid rgba(201, 164, 92, 0.45);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.ticker {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+}
