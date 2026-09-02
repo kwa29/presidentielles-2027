@@ -14,7 +14,7 @@ export function DecisionLog({ entries }: { entries: LogEntry[] }) {
 
   return (
     <aside className="max-h-56 overflow-y-auto rounded-2xl border border-white/8 bg-black/25 p-4">
-      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-gold">
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-gold sm:tracking-[0.22em]">
         Journal du mandat
       </p>
       <ul className="mt-3 space-y-2">
@@ -23,7 +23,7 @@ export function DecisionLog({ entries }: { entries: LogEntry[] }) {
             key={`${entry.year}-${entry.kind}-${index}`}
             className="border-b border-dashed border-white/8 pb-2 text-sm last:border-0 last:pb-0"
           >
-            <span className="mr-2 font-mono text-[10px] text-gold">
+            <span className="mr-2 shrink-0 font-mono text-[10px] text-gold">
               {entry.year}
             </span>
             <span className={entry.kind === "event" ? "text-warn" : "text-paper"}>

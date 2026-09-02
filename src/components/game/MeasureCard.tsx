@@ -22,17 +22,17 @@ export function MeasureCard({
       data-measure-id={measure.id}
       disabled={disabled}
       onClick={() => onChoose(measure)}
-      className="decree group relative flex h-full flex-col rounded-2xl p-4 text-left transition hover:-translate-y-1 hover:border-gold disabled:cursor-not-allowed disabled:opacity-60"
+      className="decree group relative flex h-full min-w-0 flex-col rounded-2xl p-4 text-left transition [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:border-gold disabled:cursor-not-allowed disabled:opacity-60"
     >
       <div className="flex items-start justify-between gap-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#7a6540]">
+        <p className="min-w-0 font-mono text-[10px] uppercase tracking-[0.14em] text-[#7a6540] sm:tracking-[0.22em]">
           {measure.cat}
         </p>
-        <span className="rotate-12 rounded-full border border-[#c9a45c]/50 px-2 py-1 font-mono text-[9px] tracking-[0.18em] text-[#8a6d2e]">
+        <span className="shrink-0 rotate-12 rounded-full border border-[#c9a45c]/50 px-2 py-1 font-mono text-[9px] tracking-[0.18em] text-[#8a6d2e]">
           {seal}
         </span>
       </div>
-      <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl leading-tight text-ink">
+      <h3 className="mt-2 font-[family-name:var(--font-display)] text-xl leading-tight text-ink sm:text-2xl">
         {measure.title}
       </h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-[#4d4333]">

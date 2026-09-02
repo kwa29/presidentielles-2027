@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { evalTone, formatStat, STAT_META, STAT_ORDER } from "@/lib/game/stats";
+import { evalTone, STAT_META, STAT_ORDER } from "@/lib/game/stats";
 import type { GameStats, Impacts, StatKey } from "@/lib/game/types";
 
 const TONE: Record<string, string> = {
@@ -35,21 +35,22 @@ export function StatGrid({
   return (
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
       {STAT_ORDER.map((key) => {
+        const meta = STAT_META[key];
         const tone = evalTone(key, stats[key]);
         const delta = deltas?.[key];
         return (
           <article
             key={key}
-            className="rounded-xl border border-white/8 bg-navy-2/80 px-3 py-2.5"
+            className="min-w-0 overflow-hidden rounded-xl border border-white/8 bg-navy-2/80 px-2.5 py-2 sm:px-3 sm:py-2.5"
           >
-            <div className="flex items-center justify-between gap-2">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                {STAT_META[key].short}
+            <div className="flex items-center justify-between gap-1">
+              <p className="truncate font-mono text-[9px] uppercase tracking-[0.12em] text-muted sm:text-[10px] sm:tracking-[0.18em]">
+                {meta.short}
               </p>
               {delta ? (
                 <span
-                  className={`font-mono text-[10px] ${
-                    (STAT_META[key].good === "low" ? delta < 0 : delta > 0)
+                  className={`shrink-0 font-mono text-[10px] ${
+                    (meta.good === "low" ? delta < 0 : delta > 0)
                       ? "text-good"
                       : "text-bad"
                   }`}
@@ -59,8 +60,15 @@ export function StatGrid({
                 </span>
               ) : null}
             </div>
-            <p className={`mt-1 font-mono text-xl font-semibold ${TONE[tone]}`}>
-              {formatStat(key, stats[key])}
+            <p className="mt-1 flex min-w-0 items-baseline gap-1">
+              <span
+                className={`font-mono text-base font-semibold tabular-nums sm:text-xl ${TONE[tone]}`}
+              >
+                {stats[key].toFixed(meta.decimals)}
+              </span>
+              <span className="truncate font-mono text-[9px] text-muted sm:text-[10px]">
+                {meta.unit}
+              </span>
             </p>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-black/40">
               <motion.div
@@ -78,7 +86,7 @@ export function StatGrid({
 
 export function ToneLegend() {
   return (
-    <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+    <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.08em] text-muted sm:tracking-[0.16em]">
       <span className="text-good">Vert</span> dans les clous ·{" "}
       <span className="text-warn">Orange</span> sous tension ·{" "}
       <span className="text-bad">Rouge</span> alerte

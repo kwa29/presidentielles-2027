@@ -35,7 +35,8 @@ export default function IndicatorsPage() {
         </p>
 
         <h2>Seuils vert / orange / rouge</h2>
-        <table>
+        <div className="table-scroll">
+          <table>
           <thead>
             <tr>
               <th>Indicateur</th>
@@ -76,7 +77,8 @@ export default function IndicatorsPage() {
               <td>&lt; 40</td>
             </tr>
           </tbody>
-        </table>
+          </table>
+        </div>
 
         {STAT_ORDER.map((key) => (
           <section key={key}>

@@ -2,52 +2,60 @@
 
 import Link from "next/link";
 import { SceneCanvas } from "@/components/scene/SceneCanvas";
+import { useMinWidth } from "@/hooks/useMinWidth";
 import { createInitialState, countryMood, getStats } from "@/lib/game";
 
 export function HomeHero() {
   const stats = getStats(createInitialState());
   const mood = countryMood(stats);
+  const showScene = useMinWidth(768);
 
   return (
     <section className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
-        <SceneCanvas stats={stats} mood={mood} />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/20 via-navy/70 to-navy" />
+      <div className="pointer-events-none absolute inset-0 z-0">
+        {showScene ? (
+          <div className="absolute inset-0 opacity-45">
+            <SceneCanvas stats={stats} mood={mood} />
+          </div>
+        ) : (
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(201,164,92,0.16),_transparent_58%)]" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/75 to-navy" />
       </div>
-      <div className="relative mx-auto grid max-w-6xl items-end gap-10 px-4 pb-16 pt-16 md:grid-cols-[1.1fr_0.9fr] md:px-6 md:pt-24">
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-gold">
+      <div className="relative mx-auto grid max-w-6xl items-end gap-8 px-4 pb-12 pt-10 sm:gap-10 sm:pb-16 sm:pt-16 md:grid-cols-[1.1fr_0.9fr] md:px-6 md:pt-24">
+        <div className="min-w-0">
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-gold sm:text-[11px] sm:tracking-[0.28em]">
             Jeu gratuit · 5 tours · 30 mesures · 14 événements
           </p>
-          <h1 className="mt-4 font-[family-name:var(--font-display)] text-5xl leading-[0.95] text-paper md:text-7xl">
+          <h1 className="mt-4 font-[family-name:var(--font-display)] text-[2.35rem] leading-[0.95] text-paper sm:text-5xl md:text-7xl">
             Vous êtes
             <span className="block text-gold-2">Président(e).</span>
             La France est
             <span className="block text-rouge">à bout.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
             Président(e) 2027 est un jeu de stratégie politique : un
             quinquennat, une décision par an, huit indicateurs qui ne vous
             pardonneront rien. Inspiré de <em>La Bataille du Budget</em>,
             transposé à l&apos;Élysée.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               href="/jouer"
-              className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-navy shadow-[0_10px_30px_rgba(201,164,92,0.28)]"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-gold px-6 py-3 text-center text-sm font-semibold text-navy shadow-[0_10px_30px_rgba(201,164,92,0.28)]"
             >
               Prendre mes fonctions →
             </Link>
             <Link
               href="/comment-jouer"
-              className="rounded-full border border-gold/40 px-6 py-3 text-sm text-gold-2"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-gold/40 px-6 py-3 text-center text-sm text-gold-2"
             >
               Comment ça se joue
             </Link>
           </div>
         </div>
-        <aside className="decree rounded-3xl p-6">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#8a6d2e]">
+        <aside className="decree rounded-2xl p-5 sm:rounded-3xl sm:p-6">
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8a6d2e] sm:tracking-[0.22em]">
             Note de dossier · 1er tour 2027
           </p>
           <ul className="mt-4 space-y-2 font-mono text-sm text-ink">

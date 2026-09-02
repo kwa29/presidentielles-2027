@@ -76,6 +76,7 @@ export const viewport: Viewport = {
   themeColor: "#07111f",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -88,7 +89,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <JsonLd data={jsonLdGraph()} />
         <div className="tricolor" />
         <SiteHeader />
-        <main className="relative z-10 flex-1">{children}</main>
+        <main className="relative z-10 min-w-0 flex-1">{children}</main>
         <SiteFooter />
       </body>
     </html>

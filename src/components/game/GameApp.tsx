@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
 import { SceneCanvas } from "@/components/scene/SceneCanvas";
+import { useMinWidth } from "@/hooks/useMinWidth";
 import {
   advanceYear,
   computeVerdict,
@@ -40,6 +41,7 @@ export function GameApp() {
   const stats = getStats(state);
   const mood = countryMood(stats);
   const ticker = useMemo(() => [...TICKER, ...TICKER].join("  ·  "), []);
+  const showScene = useMinWidth(768);
 
   function startMandate() {
     const next = createInitialState();
@@ -77,19 +79,21 @@ export function GameApp() {
   return (
     <div className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 z-0 opacity-50">
-        <div className="absolute inset-x-0 top-0 h-[280px] md:h-[360px]">
-          <SceneCanvas stats={stats} mood={mood} />
-        </div>
+        {showScene ? (
+          <div className="absolute inset-x-0 top-0 h-[280px] md:h-[360px]">
+            <SceneCanvas stats={stats} mood={mood} />
+          </div>
+        ) : null}
         <div className="absolute inset-0 bg-gradient-to-b from-navy/10 via-navy/80 to-navy" />
       </div>
 
       <div className="ticker relative z-10 overflow-hidden border-b border-gold/15 bg-black/30 py-2">
-        <p className="marquee whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.18em] text-gold-2">
+        <p className="marquee whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.12em] text-gold-2 sm:text-[11px] sm:tracking-[0.18em]">
           {ticker}
         </p>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-6 sm:py-8 md:px-6 md:py-10">
         <AnimatePresence mode="wait">
           {phase === "briefing" && (
             <motion.section
@@ -97,12 +101,12 @@ export function GameApp() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              className="decree mx-auto max-w-3xl rounded-3xl p-6 md:p-10"
+              className="decree mx-auto max-w-3xl rounded-2xl p-5 sm:rounded-3xl sm:p-6 md:p-10"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#8a6d2e]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#8a6d2e] sm:text-[11px] sm:tracking-[0.28em]">
                 Palais de l&apos;Élysée · 14 mai 2027
               </p>
-              <h1 className="mt-3 font-[family-name:var(--font-display)] text-4xl leading-tight text-ink md:text-5xl">
+              <h1 className="mt-3 font-[family-name:var(--font-display)] text-3xl leading-tight text-ink sm:text-4xl md:text-5xl">
                 Vous prenez vos fonctions.
                 <span className="block text-[#7a1d28]">La France ne vous attend pas.</span>
               </h1>
@@ -123,7 +127,7 @@ export function GameApp() {
                 type="button"
                 data-testid="start-mandate"
                 onClick={startMandate}
-                className="mt-8 rounded-full bg-bleu px-6 py-3 text-sm font-semibold text-paper shadow-[0_10px_24px_rgba(0,38,84,0.35)] transition hover:brightness-110"
+                className="mt-8 flex min-h-11 w-full items-center justify-center rounded-full bg-bleu px-6 py-3 text-sm font-semibold text-paper shadow-[0_10px_24px_rgba(0,38,84,0.35)] transition hover:brightness-110 sm:w-auto"
               >
                 Prendre mes fonctions →
               </button>
@@ -138,9 +142,9 @@ export function GameApp() {
               exit={{ opacity: 0, y: -12 }}
             >
               <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-                <div>
+                <div className="min-w-0">
                   <p
-                    className="font-mono text-[11px] uppercase tracking-[0.28em] text-gold"
+                    className="font-mono text-[10px] uppercase tracking-[0.12em] text-gold sm:text-[11px] sm:tracking-[0.28em]"
                     data-testid="game-turn"
                   >
                     Année {state.turn} / {TOTAL_TURNS}
@@ -152,7 +156,7 @@ export function GameApp() {
                     {state.year}
                   </h1>
                 </div>
-                <span className="rounded-full border border-gold/30 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-gold-2">
+                <span className="rounded-full border border-gold/30 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-gold-2 sm:text-[11px] sm:tracking-[0.18em]">
                   Conseil des ministres
                 </span>
               </div>
@@ -160,7 +164,7 @@ export function GameApp() {
               <StatGrid stats={stats} deltas={state.lastDeltas} />
               <ToneLegend />
 
-              <h2 className="mt-8 font-[family-name:var(--font-display)] text-3xl text-paper">
+              <h2 className="mt-8 font-[family-name:var(--font-display)] text-2xl text-paper sm:text-3xl">
                 Quelle mesure engagez-vous cette année ?
               </h2>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -188,13 +192,13 @@ export function GameApp() {
             >
               <StatGrid stats={stats} deltas={state.lastDeltas} />
               <article
-                className="mt-6 overflow-hidden rounded-3xl border border-[#4a2233] bg-gradient-to-br from-[#2a1620] to-[#120b12] p-6 md:p-8"
+                className="mt-6 overflow-hidden rounded-2xl border border-[#4a2233] bg-gradient-to-br from-[#2a1620] to-[#120b12] p-5 sm:rounded-3xl sm:p-6 md:p-8"
                 data-testid="event-flash"
               >
-                <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-warn">
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-warn sm:text-[11px] sm:tracking-[0.28em]">
                   Flash AFP · {state.year}
                 </p>
-                <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl leading-tight text-paper md:text-4xl">
+                <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl leading-tight text-paper sm:text-3xl md:text-4xl">
                   {event.text}
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
@@ -205,7 +209,7 @@ export function GameApp() {
                   type="button"
                   data-testid="continue-mandate"
                   onClick={continueAfterEvent}
-                  className="mt-6 rounded-full bg-gold px-5 py-3 text-sm font-semibold text-navy"
+                  className="mt-6 flex min-h-11 w-full items-center justify-center rounded-full bg-gold px-5 py-3 text-center text-sm font-semibold text-navy sm:w-auto"
                 >
                   {isMandateOver(state)
                     ? "Lire le verdict du quinquennat →"
@@ -224,16 +228,16 @@ export function GameApp() {
               data-testid="verdict"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              className="decree mx-auto max-w-3xl rounded-3xl p-6 md:p-10"
+              className="decree mx-auto max-w-3xl rounded-2xl p-5 sm:rounded-3xl sm:p-6 md:p-10"
             >
               <p
-                className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#8a6d2e]"
+                className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#8a6d2e] sm:text-[11px] sm:tracking-[0.28em]"
                 data-testid="verdict-score"
               >
                 14 mai 2032 · Fin du quinquennat · Score {verdict.score}/100
               </p>
               <h1
-                className={`mt-3 font-[family-name:var(--font-display)] text-4xl leading-tight ${
+                className={`mt-3 font-[family-name:var(--font-display)] text-3xl leading-tight sm:text-4xl ${
                   verdict.kind === "success"
                     ? "text-[#1f7a52]"
                     : verdict.kind === "mixed"
@@ -243,7 +247,7 @@ export function GameApp() {
               >
                 {verdict.title}
               </h1>
-              <p className="mt-2 text-lg italic text-[#6a5a38]">
+              <p className="mt-2 text-base italic text-[#6a5a38] sm:text-lg">
                 On vous appellera : {verdict.nickname}.
               </p>
               <p className="mt-5 text-base leading-relaxed text-[#3f3628]">
@@ -252,12 +256,12 @@ export function GameApp() {
               <div className="mt-6">
                 <StatGrid stats={stats} />
               </div>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <button
                   type="button"
                   data-testid="replay-mandate"
                   onClick={startMandate}
-                  className="rounded-full bg-bleu px-5 py-3 text-sm font-semibold text-paper"
+                  className="flex min-h-11 w-full items-center justify-center rounded-full bg-bleu px-5 py-3 text-sm font-semibold text-paper sm:w-auto"
                 >
                   Rejouer un mandat →
                 </button>
@@ -294,7 +298,7 @@ function ShareButton({ verdict }: { verdict: Verdict }) {
     <button
       type="button"
       onClick={share}
-      className="rounded-full border border-[#c9a45c] px-5 py-3 text-sm font-semibold text-ink"
+      className="flex min-h-11 w-full items-center justify-center rounded-full border border-[#c9a45c] px-5 py-3 text-sm font-semibold text-ink sm:w-auto"
     >
       {copied ? "Copié dans le journal !" : "Partager le verdict"}
     </button>

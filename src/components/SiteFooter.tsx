@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="relative z-10 border-t border-gold/15 bg-navy px-4 py-10 text-center text-sm text-muted">
+    <footer className="relative z-10 border-t border-gold/15 bg-navy px-4 py-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] text-center text-sm text-muted">
       <p className="font-[family-name:var(--font-display)] text-lg text-gold-2">
         {SITE_NAME}
       </p>
@@ -13,7 +13,7 @@ export function SiteFooter() {
         <em>La Bataille du Budget</em> (Rayan Nezzar), transposé au rôle de
         Président(e) de la République.
       </p>
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
         <Link href="/comment-jouer" className="hover:text-gold-2">
           Comment jouer
         </Link>

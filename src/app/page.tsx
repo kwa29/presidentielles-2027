@@ -19,11 +19,11 @@ export default function HomePage() {
     <>
       <HomeHero />
 
-      <section className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-4xl text-paper">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:py-16 md:px-6">
+        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
           Qu&apos;est-ce que Président(e) 2027 ?
         </h2>
-        <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted">
+        <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
           Président(e) 2027 est un jeu de stratégie politique gratuit dans
           lequel le joueur incarne le président ou la présidente de la
           République française pour un mandat de cinq ans, de 2027 à 2032. Le
@@ -59,7 +59,7 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-8 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-4xl text-paper">
+        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
           Les quatre piliers du mandat
         </h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -78,8 +78,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-4xl text-paper">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:py-12 md:px-6">
+        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
           Les 8 indicateurs suivis en temps réel
         </h2>
         <p className="mt-4 max-w-3xl text-muted">
@@ -87,7 +87,24 @@ export default function HomePage() {
           n&apos;est pas de tout maximiser : austérité et popularité tirent
           rarement dans le même sens.
         </p>
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-white/8">
+        <ul className="mt-6 grid gap-3 sm:hidden">
+          {STAT_ORDER.map((key) => {
+            const meta = STAT_META[key];
+            return (
+              <li
+                key={key}
+                className="rounded-2xl border border-white/8 bg-navy-2 p-4"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
+                  {meta.unit} · {meta.good === "low" ? "Plus bas = mieux" : "Plus haut = mieux"}
+                </p>
+                <h3 className="mt-1 text-lg text-paper">{meta.label}</h3>
+                <p className="mt-1 text-sm text-muted">{meta.description}</p>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="table-scroll mt-6 hidden rounded-2xl border border-white/8 sm:block">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="bg-navy-2 font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
               <tr>
@@ -121,11 +138,11 @@ export default function HomePage() {
         </p>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-        <h2 className="font-[family-name:var(--font-display)] text-4xl text-paper">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:py-12 md:px-6">
+        <h2 className="font-[family-name:var(--font-display)] text-3xl text-paper sm:text-4xl">
           Comment se termine un quinquennat ?
         </h2>
-        <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted">
+        <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
           Le verdict de Président(e) 2027 repose sur un score composite sur 100
           points, calculé à partir des huit indicateurs en fin de mandat. Un
           score d&apos;au moins 75 donne un mandat réussi : réélection au
@@ -139,7 +156,7 @@ export default function HomePage() {
         <div className="mt-8">
           <Link
             href="/jouer"
-            className="inline-flex rounded-full bg-gold px-6 py-3 text-sm font-semibold text-navy"
+            className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-navy sm:w-auto"
           >
             Tenter le quinquennat →
           </Link>
