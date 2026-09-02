@@ -8,7 +8,7 @@
 2. Each year, 5 unused measures are drawn, one per current: extrême gauche, gauche, centre, droite, extrême droite. The pool has 100 decrees (20 per current).
 3. Pensions (retraites) and VAT (TVA) appear in every current, twisted differently: retirement at 60 vs 62 vs 64 vs 65; VAT at 0% on essentials vs social VAT vs +1 point to fill Bercy.
 4. The player signs one decree. Impacts apply immediately.
-5. One event is drawn among those whose condition is true. Always-on events include a minor scandal, an energy shock, a heatwave, and a crime-news cycle. Conditional events include a general strike (cohesion < 45), riots (security < 45), a credit-rating downgrade (debt > 118), a censure motion (popularity < 35), INSEE slowdown (growth < 0.5), EU-summit isolation (standing < 40), and positive loops when popularity, growth, deficit or cohesion are healthy.
+5. One event is drawn among 30 Flash AFP headlines whose condition is true. Always-on events include a minor scandal, an energy shock, a heatwave, a crime-news cycle, hospital strain, farm blockades, a cyberattack, floods, and a Matignon leak. Conditional events include a general strike (cohesion < 45), riots (security < 45), a credit-rating downgrade (debt > 118), a censure motion (popularity < 35), INSEE slowdown (growth < 0.5), EU-summit isolation (standing < 40), Brussels excessive-deficit pressure (deficit > 5), and positive loops when popularity, growth, deficit, security or cohesion are healthy.
 6. Debt also drifts with the deficit each time stats are clamped.
 7. After 5 signed decrees, a 100-point composite score is computed. The verdict nickname follows the dominant political current of the mandate.
 
