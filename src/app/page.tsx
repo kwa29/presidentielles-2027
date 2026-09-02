@@ -32,7 +32,7 @@ export default function HomePage() {
           année, cinq mesures — une par courant politique — sont tirées parmi{" "}
           {GAME_FACTS.measures} décrets. Vous n&apos;en signez qu&apos;une.
           Retraites et TVA servent de modulateurs. Huit indicateurs évoluent
-          en temps réel. Quatorze événements réagissent à l&apos;état du pays.
+          en temps réel. Trente événements réagissent à l&apos;état du pays.
           À la fin : un verdict.
         </p>
 

@@ -5,9 +5,9 @@ import { CURRENT_ORDER } from "./currents";
 import { assertGameData, GAME_FACTS } from "./index";
 
 describe("données du jeu", () => {
-  it("contient 100 mesures, 14 événements et 5 courants", () => {
+  it("contient 100 mesures, 30 événements et 5 courants", () => {
     expect(MEASURES).toHaveLength(100);
-    expect(EVENTS).toHaveLength(14);
+    expect(EVENTS).toHaveLength(30);
     expect(GAME_FACTS.indicators).toBe(8);
     expect(GAME_FACTS.turns).toBe(5);
     expect(GAME_FACTS.currents).toBe(5);

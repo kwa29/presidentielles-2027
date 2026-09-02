@@ -1,7 +1,7 @@
 export const SITE_NAME = "Président(e) 2027";
 export const SITE_TAGLINE = "Redresser et rehausser la France";
 export const SITE_DESCRIPTION =
-  "Président(e) 2027 est un jeu de stratégie politique gratuit : incarnez le président ou la présidente de la République pour un quinquennat (2027-2032), arbitrez 100 mesures issues de cinq courants politiques, modulez retraites et TVA, survivez à 14 événements, et voyez si la France tient jusqu'en 2032.";
+  "Président(e) 2027 est un jeu de stratégie politique gratuit : incarnez le président ou la présidente de la République pour un quinquennat (2027-2032), arbitrez 100 mesures issues de cinq courants politiques, modulez retraites et TVA, survivez à 30 événements, et voyez si la France tient jusqu'en 2032.";
 
 export function getSiteUrl() {
   return (

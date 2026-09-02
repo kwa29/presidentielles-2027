@@ -28,7 +28,7 @@ export default function AboutPage() {
           est transposé au rôle de Président(e) de la République pour le
           quinquennat 2027-2032. Le jeu n&apos;est affilié ni à une campagne,
           ni à un parti, ni à une institution. Il n&apos;est pas un simulateur
-          macroéconomique officiel : les 100 mesures et les 14 événements
+          macroéconomique officiel : les 100 mesures et les 30 événements
           utilisent des ordres de grandeur simplifiés, assumés comme ludiques
           et pédagogiques.
         </p>

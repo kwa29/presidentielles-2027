@@ -52,8 +52,8 @@ export function assertGameData() {
   if (MEASURES.length !== 100) {
     throw new Error(`Expected 100 measures, got ${MEASURES.length}`);
   }
-  if (EVENTS.length !== 14) {
-    throw new Error(`Expected 14 events, got ${EVENTS.length}`);
+  if (EVENTS.length !== 30) {
+    throw new Error(`Expected 30 events, got ${EVENTS.length}`);
   }
 }
 

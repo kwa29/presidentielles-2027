@@ -19,7 +19,7 @@ Ouvrir [http://localhost:3000](http://localhost:3000) puis [Jouer](http://localh
 - 100 mesures chiffrées, 5 courants politiques
 - Retraites et TVA comme leviers dans chaque camp
 - 8 indicateurs en temps réel (vert / orange / rouge)
-- 14 événements conditionnels
+- 30 événements conditionnels
 - Journal de mandat + verdict composite
 - Scène Three.js du conseil des ministres (France + 8 orbes)
 

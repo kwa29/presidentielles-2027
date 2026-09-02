@@ -5,7 +5,7 @@ import { PageIntro, Prose } from "@/components/PageIntro";
 export const metadata: Metadata = {
   title: "Comment jouer",
   description:
-    "Règles de Président(e) 2027 : cinq tours, cinq courants politiques, 100 mesures, retraites et TVA, huit indicateurs, quatorze événements.",
+    "Règles de Président(e) 2027 : cinq tours, cinq courants politiques, 100 mesures, retraites et TVA, huit indicateurs, trente événements.",
   alternates: { canonical: "/comment-jouer" },
 };
 
