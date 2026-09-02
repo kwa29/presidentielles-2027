@@ -10,10 +10,10 @@ export function HomeHero() {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="absolute inset-0 opacity-50">
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
         <SceneCanvas stats={stats} mood={mood} />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/20 via-navy/70 to-navy" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/75 to-navy" />
       <div className="relative mx-auto grid max-w-6xl items-end gap-10 px-4 pb-16 pt-16 md:grid-cols-[1.1fr_0.9fr] md:px-6 md:pt-24">
         <div>
           <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-gold">

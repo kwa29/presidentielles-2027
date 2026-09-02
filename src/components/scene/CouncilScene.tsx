@@ -86,21 +86,26 @@ function IndicatorOrbs({ stats }: { stats: GameStats }) {
   );
 }
 
-function Dust() {
-  const positions = useMemo(() => {
-    const arr = new Float32Array(600);
-    for (let i = 0; i < 200; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 8;
-      arr[i * 3 + 1] = Math.random() * 4;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 8;
-    }
-    return arr;
-  }, []);
+const DUST_POSITIONS = (() => {
+  const arr = new Float32Array(600);
+  let seed = 2027;
+  const next = () => {
+    seed = (seed * 16807) % 2147483647;
+    return seed / 2147483647;
+  };
+  for (let i = 0; i < 200; i++) {
+    arr[i * 3] = (next() - 0.5) * 8;
+    arr[i * 3 + 1] = next() * 4;
+    arr[i * 3 + 2] = (next() - 0.5) * 8;
+  }
+  return arr;
+})();
 
+function Dust() {
   return (
     <points>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-position" args={[DUST_POSITIONS, 3]} />
       </bufferGeometry>
       <pointsMaterial size={0.018} color="#e8d5a3" transparent opacity={0.55} />
     </points>
@@ -119,6 +124,7 @@ export function CouncilScene({
       camera={{ position: [0, 2.4, 5.2], fov: 42 }}
       gl={{ antialias: true, alpha: true }}
       className="h-full w-full"
+      style={{ pointerEvents: "none" }}
     >
       <color attach="background" args={["#07111f"]} />
       <fog attach="fog" args={["#07111f", 6, 14]} />
@@ -140,6 +146,7 @@ export function CouncilScene({
       <OrbitControls
         enablePan={false}
         enableZoom={false}
+        enableRotate={false}
         autoRotate
         autoRotateSpeed={0.6}
         minPolarAngle={0.9}

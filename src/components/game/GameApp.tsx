@@ -76,11 +76,11 @@ export function GameApp() {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 opacity-40">
-        <div className="absolute inset-x-0 top-0 h-[420px]">
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-50">
+        <div className="absolute inset-x-0 top-0 h-[280px] md:h-[360px]">
           <SceneCanvas stats={stats} mood={mood} />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/20 via-navy/75 to-navy" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/10 via-navy/80 to-navy" />
       </div>
 
       <div className="ticker relative z-10 overflow-hidden border-b border-gold/15 bg-black/30 py-2">
