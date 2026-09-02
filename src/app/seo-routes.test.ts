@@ -5,7 +5,8 @@ import sitemap from "@/app/sitemap";
 describe("robots", () => {
   it("autorise les crawlers de recherche IA", () => {
     const file = robots();
-    const agents = file.rules.map((rule) =>
+    const rules = [file.rules].flat();
+    const agents = rules.map((rule) =>
       typeof rule === "object" ? rule.userAgent : undefined,
     );
     expect(agents).toEqual(
@@ -17,7 +18,7 @@ describe("robots", () => {
         "Google-Extended",
       ]),
     );
-    expect(file.rules).toEqual(
+    expect(rules).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ userAgent: "Bytespider", disallow: "/" }),
       ]),

@@ -10,8 +10,8 @@
     "simulate": "npx --yes tsx scripts/simulate.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
-    "test:all": "vitest run && playwright test"
+    "test:e2e": "npm run build && playwright test",
+    "test:all": "vitest run && npm run test:e2e"
   },
   "dependencies": {
     "motion": "^13.2.0",

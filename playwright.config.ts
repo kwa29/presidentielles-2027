@@ -12,14 +12,14 @@ export default defineConfig({
   use: {
     baseURL,
     locale: "fr-FR",
-    reducedMotion: "reduce",
     trace: "on-first-retry",
   },
   webServer: {
-    command: `npx next dev --port ${port}`,
+    command:
+      "sh -c 'test -d .next || npm run build; exec npx next start --port 3100'",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: 180_000,
   },
   projects: [
     {

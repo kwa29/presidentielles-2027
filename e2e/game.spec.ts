@@ -8,6 +8,7 @@ async function playOneYear(page: Page) {
 }
 
 test.describe("quinquennat", () => {
+  test.describe.configure({ timeout: 60_000 });
   test("joue 5 tours jusqu'au verdict", async ({ page }) => {
     await page.goto("/jouer");
     await expect(
