@@ -40,7 +40,7 @@ export default function AboutPage() {
           peu drôle, le vertige d&apos;un mandat — l&apos;idée qu&apos;on ne
           peut pas tout avoir, que la rue, Bruxelles et les marchés ne
           signent pas les mêmes décrets, et qu&apos;un quinquennat tient
-          souvent à cinq arbitrages mal dormis. Si le jeu circule, tant mieux.
+          souvent à dix arbitrages mal dormis. Si le jeu circule, tant mieux.
           S&apos;il fait débattre autour d&apos;une table, encore mieux.
         </p>
 

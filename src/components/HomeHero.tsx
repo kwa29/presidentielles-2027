@@ -42,7 +42,7 @@ export function HomeHero() {
       <div className="relative mx-auto grid max-w-6xl items-end gap-8 px-4 pb-14 pt-12 sm:gap-10 sm:pb-20 sm:pt-16 md:grid-cols-[1.15fr_0.85fr] md:px-6 md:pt-24">
         <div className="min-w-0">
           <p className="rise font-mono text-[10px] uppercase tracking-[0.12em] text-gold sm:text-[11px] sm:tracking-[0.28em]">
-            Jeu gratuit · 5 tours · 100 mesures · 5 courants
+            Jeu gratuit · 10 décrets · 100 mesures · 5 courants
           </p>
           <h1 className="rise rise-delay-1 mt-4 font-[family-name:var(--font-display)] text-[2.45rem] leading-[0.94] text-paper sm:text-5xl md:text-7xl">
             Vous êtes
@@ -51,7 +51,7 @@ export function HomeHero() {
             <span className="block text-rouge">à bout.</span>
           </h1>
           <p className="rise rise-delay-2 mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-            Un quinquennat. Une décision par an. Cinq courants politiques
+            Un quinquennat. Deux décisions par an. Cinq courants politiques
             frottés à la réalité des comptes. Inspiré de{" "}
             <em>La Bataille du Budget</em>, transposé à l&apos;Élysée.
           </p>

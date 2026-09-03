@@ -85,5 +85,19 @@ export interface Verdict {
 }
 
 export const START_YEAR = 2027;
-export const TOTAL_TURNS = 5;
+export const MANDATE_YEARS = 5;
+export const DECISIONS_PER_YEAR = 2;
+export const TOTAL_TURNS = MANDATE_YEARS * DECISIONS_PER_YEAR;
 export const CARDS_PER_TURN = 5;
+
+export function yearForTurn(turn: number): number {
+  return START_YEAR + Math.floor((turn - 1) / DECISIONS_PER_YEAR);
+}
+
+export function decisionIndexInYear(turn: number): number {
+  return ((turn - 1) % DECISIONS_PER_YEAR) + 1;
+}
+
+export function isLastDecisionOfYear(turn: number): boolean {
+  return decisionIndexInYear(turn) === DECISIONS_PER_YEAR;
+}

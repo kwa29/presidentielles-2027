@@ -10,6 +10,7 @@ import {
   playTurn,
 } from "./engine";
 import { simulateRandomMandate } from "./index";
+import { yearForTurn } from "./types";
 import type { GameStats } from "./types";
 
 afterEach(() => {
@@ -119,30 +120,51 @@ describe("playTurn", () => {
 });
 
 describe("advanceYear / mandat", () => {
-  it("passe à l'année suivante jusqu'au cinquième tour", () => {
-    const year2 = advanceYear(createInitialState());
-    expect(year2.turn).toBe(2);
+  it("mappe deux décrets par année calendaire", () => {
+    expect(yearForTurn(1)).toBe(2027);
+    expect(yearForTurn(2)).toBe(2027);
+    expect(yearForTurn(3)).toBe(2028);
+    expect(yearForTurn(10)).toBe(2031);
+  });
+  it("reste sur la même année pour le second décret, puis avance", () => {
+    const second = advanceYear(createInitialState());
+    expect(second.turn).toBe(2);
+    expect(second.year).toBe(2027);
+
+    const year2 = advanceYear(second);
+    expect(year2.turn).toBe(3);
     expect(year2.year).toBe(2028);
 
-    const frozen = advanceYear({ ...createInitialState(), turn: 5, year: 2031 });
-    expect(frozen.turn).toBe(5);
+    const frozen = advanceYear({
+      ...createInitialState(),
+      turn: 10,
+      year: 2031,
+    });
+    expect(frozen.turn).toBe(10);
     expect(frozen.year).toBe(2031);
   });
 
-  it("termine le mandat après 5 décisions", () => {
+  it("termine le mandat après 10 décisions", () => {
     expect(isMandateOver(createInitialState())).toBe(false);
     expect(
       isMandateOver({
         ...createInitialState(),
         usedMeasureIds: ["a", "b", "c", "d", "e"],
       }),
+    ).toBe(false);
+    expect(
+      isMandateOver({
+        ...createInitialState(),
+        usedMeasureIds: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"],
+      }),
     ).toBe(true);
   });
 
   it("simule un quinquennat complet sans sortir des bornes", () => {
     const { state, verdict } = simulateRandomMandate();
-    expect(state.usedMeasureIds).toHaveLength(5);
-    expect(state.log).toHaveLength(10);
+    expect(state.usedMeasureIds).toHaveLength(10);
+    expect(state.log).toHaveLength(20);
+    expect(state.year).toBe(2031);
     expect(state.popularite).toBeGreaterThanOrEqual(0);
     expect(state.popularite).toBeLessThanOrEqual(100);
     expect(["success", "mixed", "failure"]).toContain(verdict.kind);

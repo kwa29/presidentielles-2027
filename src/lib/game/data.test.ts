@@ -9,7 +9,9 @@ describe("données du jeu", () => {
     expect(MEASURES).toHaveLength(100);
     expect(EVENTS).toHaveLength(30);
     expect(GAME_FACTS.indicators).toBe(8);
-    expect(GAME_FACTS.turns).toBe(5);
+    expect(GAME_FACTS.turns).toBe(10);
+    expect(GAME_FACTS.years).toBe(5);
+    expect(GAME_FACTS.decisionsPerYear).toBe(2);
     expect(GAME_FACTS.currents).toBe(5);
     expect(() => assertGameData()).not.toThrow();
   });

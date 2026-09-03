@@ -7,6 +7,7 @@ import {
   CURRENT_ORDER,
   START_YEAR,
   TOTAL_TURNS,
+  yearForTurn,
   type GameEvent,
   type GameState,
   type GameStats,
@@ -148,10 +149,11 @@ export function playTurn(state: GameState, measure: Measure) {
 
 export function advanceYear(state: GameState): GameState {
   if (state.turn >= TOTAL_TURNS) return state;
+  const turn = state.turn + 1;
   return {
     ...state,
-    turn: state.turn + 1,
-    year: state.year + 1,
+    turn,
+    year: yearForTurn(turn),
     lastDeltas: {},
   };
 }

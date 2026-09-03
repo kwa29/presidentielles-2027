@@ -29,16 +29,21 @@ export default function HomePage() {
         <div className="gold-rule mt-5 max-w-[8rem]" />
         <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
           Vous incarnez le président ou la présidente pour 2027-2032. Chaque
-          année, cinq mesures — une par courant politique — sont tirées parmi{" "}
-          {GAME_FACTS.measures} décrets. Vous n&apos;en signez qu&apos;une.
-          Retraites et TVA servent de modulateurs. Huit indicateurs évoluent
-          en temps réel. Trente événements réagissent à l&apos;état du pays.
-          À la fin : un verdict.
+          année, deux conseils : cinq mesures — une par courant politique —
+          sont tirées parmi {GAME_FACTS.measures} décrets, et vous n&apos;en
+          signez qu&apos;une. Dix signatures pour le quinquennat. Retraites et
+          TVA servent de modulateurs. Huit indicateurs évoluent en temps réel.
+          Trente événements réagissent à l&apos;état du pays. À la fin : un
+          verdict.
         </p>
 
         <dl className="mt-10 grid gap-6 border-y border-gold/15 py-8 sm:grid-cols-3">
           {[
-            ["5", "tours", "Un quinquennat, une décision par an."],
+            [
+              String(GAME_FACTS.turns),
+              "décrets",
+              "Deux décisions par an pendant cinq ans.",
+            ],
             [
               String(GAME_FACTS.measures),
               "mesures",
@@ -71,9 +76,9 @@ export default function HomePage() {
           Cinq courants, une réalité
         </h2>
         <p className="mt-4 max-w-3xl text-muted">
-          Chaque année, le conseil des ministres aligne cinq décrets. Signer,
-          c&apos;est frotter une promesse de campagne aux comptes, à la rue et
-          à Bruxelles.
+          Chaque année, deux conseils des ministres. Cinq décrets sur la table,
+          une signature à chaque fois. Signer, c&apos;est frotter une promesse
+          de campagne aux comptes, à la rue et à Bruxelles.
         </p>
         <div className="mt-8 divide-y divide-white/8 border-y border-white/8">
           {CURRENT_ORDER.map((current) => {

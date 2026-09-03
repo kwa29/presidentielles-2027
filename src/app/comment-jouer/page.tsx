@@ -5,7 +5,7 @@ import { PageIntro, Prose } from "@/components/PageIntro";
 export const metadata: Metadata = {
   title: "Comment jouer",
   description:
-    "Règles de Président(e) 2027 : cinq tours, cinq courants politiques, 100 mesures, retraites et TVA, huit indicateurs, trente événements.",
+    "Règles de Président(e) 2027 : cinq années, deux décrets par an, cinq courants politiques, 100 mesures, retraites et TVA, huit indicateurs, trente événements.",
   alternates: { canonical: "/comment-jouer" },
 };
 
@@ -15,20 +15,20 @@ export default function HowToPlayPage() {
       <PageIntro
         eyebrow="Règles du jeu"
         title="Comment jouer à Président(e) 2027"
-        lede="Un quinquennat tient en cinq clics. Chaque clic frotte une promesse de candidat — retraites, TVA, frontières, SMIC — à la réalité des comptes."
+        lede="Un quinquennat tient en dix signatures. Chaque clic frotte une promesse de candidat — retraites, TVA, frontières, SMIC — à la réalité des comptes."
         crumbs={[{ name: "Comment jouer", path: "/comment-jouer" }]}
       />
       <Prose>
         <h2>Quel est le but du jeu ?</h2>
         <p>
           Le but de Président(e) 2027 est de redresser la France en cinq ans,
-          de 2027 à 2032, en signant une mesure par an. Le joueur gagne si le
+          de 2027 à 2032, en signant deux mesures par an. Le joueur gagne si le
           score composite de fin de mandat atteint 75 points sur 100 : déficit
           maîtrisé, croissance qui repart, popularité et cohésion encore
           vivantes. Un score entre 45 et 74 produit un mandat mitigé. Sous 45,
           le quinquennat est un échec. Le jeu ne demande aucun compte, aucun
           paiement, aucune application : il se joue dans le navigateur, en
-          français, en une dizaine de minutes.
+          français, en une vingtaine de minutes.
         </p>
 
         <h2>Comment se déroule un tour ?</h2>
@@ -36,8 +36,8 @@ export default function HowToPlayPage() {
           <li>
             Cinq mesures sont tirées, une par courant politique : extrême
             gauche, gauche, centre, droite, extrême droite. Le corpus compte
-            100 décrets. Retraites et TVA reviennent dans chaque camp, avec un
-            calibrage différent.
+            100 décrets. Deux conseils par année, donc deux tirages. Retraites
+            et TVA reviennent dans chaque camp, avec un calibrage différent.
           </li>
           <li>
             Vous en signez une. Ses effets s&apos;appliquent immédiatement aux
@@ -51,7 +51,7 @@ export default function HowToPlayPage() {
           </li>
           <li>
             Le journal du mandat consigne la décision et l&apos;événement.
-            L&apos;année suivante s&apos;ouvre, jusqu&apos;à 2032.
+            Deux décrets par année, jusqu&apos;à 2032.
           </li>
         </ol>
 

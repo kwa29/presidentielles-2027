@@ -15,7 +15,7 @@ Ouvrir [http://localhost:3000](http://localhost:3000) puis [Jouer](http://localh
 
 ## Contenu
 
-- 5 tours = 1 quinquennat (2027-2031 joués, verdict en 2032)
+- 10 décrets = 1 quinquennat (deux par an, 2027-2031 joués, verdict en 2032)
 - 100 mesures chiffrées, 5 courants politiques
 - Retraites et TVA comme leviers dans chaque camp
 - 8 indicateurs en temps réel (vert / orange / rouge)

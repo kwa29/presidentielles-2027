@@ -15,7 +15,13 @@ import {
   pickCards,
   playTurn,
 } from "@/lib/game";
-import { TOTAL_TURNS } from "@/lib/game/types";
+import {
+  DECISIONS_PER_YEAR,
+  MANDATE_YEARS,
+  TOTAL_TURNS,
+  decisionIndexInYear,
+  isLastDecisionOfYear,
+} from "@/lib/game/types";
 import type { GameEvent, GameState, Measure, Verdict } from "@/lib/game/types";
 import {
   CURRENT_META,
@@ -33,7 +39,7 @@ const TICKER = [
   "Bercy — La dette flirte avec 116 % du PIB",
   "Place Beauvau — L'autorité de l'État est contestée",
   "Matignon — La cohésion sociale reste fragile",
-  "Élysée — Un quinquennat, cinq décrets, zéro filet",
+  "Élysée — Un quinquennat, dix décrets, zéro filet",
   "INSEE — Le chômage résiste autour de 7,5 %",
   "Banque de France — La croissance plafonne sous 1 %",
   "Bruxelles — Procédure pour déficit excessif toujours ouverte",
@@ -77,7 +83,7 @@ export function GameApp() {
 
   useEffect(() => {
     stageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [phase, state.year]);
+  }, [phase, state.year, state.turn]);
 
   function startMandate() {
     const next = createInitialState();
@@ -159,9 +165,10 @@ export function GameApp() {
               <p className="text-base leading-relaxed text-[#3f3628]">
                 France 2027 : déficit à 5,4 % du PIB, dette à 116 % du PIB,
                 chômage à 7,5 %, croissance en berne. Cinq années. Chaque année,
-                cinq décrets — un par courant, de l&apos;extrême gauche à
-                l&apos;extrême droite. Vous n&apos;en signez qu&apos;un.
-                Retraites et TVA ne sont jamais loin.
+                deux conseils des ministres : cinq décrets sur la table — un
+                par courant, de l&apos;extrême gauche à l&apos;extrême droite —
+                et vous n&apos;en signez qu&apos;un. Dix signatures pour un
+                quinquennat. Retraites et TVA ne sont jamais loin.
               </p>
               <button
                 type="button"
@@ -176,7 +183,7 @@ export function GameApp() {
 
           {phase === "choice" && (
             <motion.section
-              key={`choice-${state.year}`}
+              key={`choice-${state.turn}`}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
@@ -187,7 +194,9 @@ export function GameApp() {
                     className="font-mono text-[10px] uppercase tracking-[0.12em] text-gold sm:text-[11px] sm:tracking-[0.28em]"
                     data-testid="game-turn"
                   >
-                    Année {state.turn} / {TOTAL_TURNS}
+                    Année {Math.ceil(state.turn / DECISIONS_PER_YEAR)} /{" "}
+                    {MANDATE_YEARS} · Décret{" "}
+                    {decisionIndexInYear(state.turn)} / {DECISIONS_PER_YEAR}
                   </p>
                   <h1
                     className="font-[family-name:var(--font-display)] text-4xl text-paper md:text-5xl"
@@ -196,8 +205,8 @@ export function GameApp() {
                     {state.year}
                   </h1>
                   <div
-                    className="progress-rail mt-3 w-40 sm:w-52"
-                    aria-label={`Progression du mandat : année ${state.turn} sur ${TOTAL_TURNS}`}
+                    className="progress-rail mt-3 w-52 sm:w-64"
+                    aria-label={`Progression du mandat : décret ${state.turn} sur ${TOTAL_TURNS}`}
                   >
                     {Array.from({ length: TOTAL_TURNS }, (_, i) => (
                       <span
@@ -214,7 +223,9 @@ export function GameApp() {
                   </div>
                 </div>
                 <span className="rounded-full border border-gold/30 bg-navy-2/60 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-gold-2 sm:text-[11px] sm:tracking-[0.18em]">
-                  Conseil des ministres
+                  {decisionIndexInYear(state.turn) === 1
+                    ? "Premier conseil"
+                    : "Second conseil"}
                 </span>
               </div>
 
@@ -222,11 +233,13 @@ export function GameApp() {
               <ToneLegend />
 
               <h2 className="mt-8 font-[family-name:var(--font-display)] text-2xl text-paper sm:text-3xl">
-                Quelle mesure engagez-vous cette année ?
+                Quelle mesure engagez-vous maintenant ?
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-muted">
-                Cinq propositions sur la table. Une seule signature. Chaque
-                décret a un prix.
+                {decisionIndexInYear(state.turn) === 1
+                  ? "Premier décret de l'année. Cinq propositions, une seule signature."
+                  : "Second décret de l'année. Cinq nouvelles propositions, une seule signature."}{" "}
+                Chaque décret a un prix.
               </p>
               <div className="mt-5 grid gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-5">
                 {cards.map((measure) => (
@@ -246,7 +259,7 @@ export function GameApp() {
 
           {phase === "event" && event && (
             <motion.section
-              key={`event-${state.year}-${event.id}`}
+              key={`event-${state.turn}-${event.id}`}
               initial={{ opacity: 0, scale: 0.985 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
@@ -279,7 +292,9 @@ export function GameApp() {
                 >
                   {isMandateOver(state)
                     ? "Lire le verdict du quinquennat →"
-                    : "Passer à l'année suivante →"}
+                    : isLastDecisionOfYear(state.turn)
+                      ? "Passer à l'année suivante →"
+                      : "Second décret de l'année →"}
                 </button>
               </article>
               <div className="mt-6">

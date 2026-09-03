@@ -15,10 +15,10 @@ if (clamped.popularite < 0 || clamped.popularite > 100) {
 
 for (let i = 0; i < 25; i++) {
   const { state, verdict } = simulateRandomMandate();
-  if (state.usedMeasureIds.length !== 5) {
+  if (state.usedMeasureIds.length !== 10) {
     throw new Error(`Mandat incomplet: ${state.usedMeasureIds.length} décisions`);
   }
-  if (state.log.length !== 10) {
+  if (state.log.length !== 20) {
     throw new Error(`Journal incomplet: ${state.log.length} lignes`);
   }
   if (!["success", "mixed", "failure"].includes(verdict.kind)) {

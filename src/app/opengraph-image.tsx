@@ -49,7 +49,7 @@ export default function OpenGraphImage() {
           </div>
         </div>
         <div style={{ fontSize: 24, color: "#9fb0cc" }}>
-          5 tours · 100 mesures · 5 courants · 8 indicateurs
+          10 décrets · 100 mesures · 5 courants · 8 indicateurs
         </div>
       </div>
     ),

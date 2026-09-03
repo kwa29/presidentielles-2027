@@ -27,9 +27,11 @@ export default function MeasuresPage() {
         <p>
           Président(e) 2027 contient exactement 100 mesures jouables, vingt par
           courant politique : extrême gauche, gauche, centre, droite, extrême
-          droite. À chaque année du quinquennat, le jeu tire une mesure encore
-          inutilisée dans chacun des cinq courants. Le joueur n&apos;en signe
-          qu&apos;une. Une mesure déjà signée ne revient pas. Les effets sont
+          droite. À chaque conseil des ministres, le jeu tire une mesure encore
+          inutilisée dans chacun des cinq courants. Deux conseils par année,
+          dix signatures pour le quinquennat. Le joueur n&apos;en signe
+          qu&apos;une à chaque fois. Une mesure déjà signée ne revient pas.
+          Les effets sont
           volontairement caricaturaux et pédagogiques : ils n&apos;ont pas
           vocation à prédire un vrai budget de l&apos;État. Ils servent à
           rendre visible le trade-off — ce que coûte une retraite à 60 ans, ce

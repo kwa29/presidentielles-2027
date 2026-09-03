@@ -8,6 +8,7 @@ import {
   playTurn,
 } from "./engine";
 import { computeVerdict } from "./scoring";
+import { TOTAL_TURNS } from "./types";
 
 export { MEASURES, PILLAR_META } from "./measures";
 export { EVENTS } from "./events";
@@ -24,6 +25,16 @@ export {
   clampStats,
 } from "./engine";
 export { computeScore, computeVerdict } from "./scoring";
+export {
+  CARDS_PER_TURN,
+  DECISIONS_PER_YEAR,
+  MANDATE_YEARS,
+  START_YEAR,
+  TOTAL_TURNS,
+  decisionIndexInYear,
+  isLastDecisionOfYear,
+  yearForTurn,
+} from "./types";
 export type {
   GameState,
   GameStats,
@@ -36,8 +47,10 @@ export type {
 } from "./types";
 
 export const GAME_FACTS = {
-  turns: 5,
-  years: "2027-2032",
+  turns: TOTAL_TURNS,
+  years: 5,
+  decisionsPerYear: 2,
+  mandate: "2027-2032",
   measures: MEASURES.length,
   events: EVENTS.length,
   indicators: 8,
@@ -59,7 +72,7 @@ export function assertGameData() {
 
 export function simulateRandomMandate() {
   let state = createInitialState();
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < TOTAL_TURNS; i++) {
     const cards = pickCards(state);
     const choice = cards[0];
     if (!choice) break;
