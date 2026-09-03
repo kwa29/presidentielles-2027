@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageIntro, Prose } from "@/components/PageIntro";
-import { SITE_NAME, getSiteUrl } from "@/lib/site";
+import { SITE_NAME, GA_MEASUREMENT_ID, getSiteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
@@ -39,9 +39,10 @@ export default function LegalPage() {
         <p>
           Le jeu se joue dans le navigateur. Aucun compte n&apos;est requis.
           Aucune donnée de partie n&apos;est envoyée à un serveur pour le
-          gameplay. Si un hébergeur collecte des logs techniques (adresse IP,
-          user-agent) pour la sécurité, ils restent sous sa politique de
-          confidentialité.
+          gameplay. Google Analytics 4 (mesure {GA_MEASUREMENT_ID}) est utilisé
+          pour compter les visites. Si un hébergeur collecte des logs
+          techniques (adresse IP, user-agent) pour la sécurité, ils restent
+          sous sa politique de confidentialité.
         </p>
 
         <h2>Avertissement</h2>

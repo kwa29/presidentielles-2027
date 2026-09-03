@@ -3,6 +3,7 @@ import { Cormorant_Garamond, IBM_Plex_Mono, Karla } from "next/font/google";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { JsonLd } from "@/components/JsonLd";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { jsonLdGraph } from "@/lib/seo";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, getSiteUrl } from "@/lib/site";
 import "./globals.css";
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-navy text-paper">
         <JsonLd data={jsonLdGraph()} />
+        <GoogleAnalytics />
         <a href="#contenu" className="skip-link">
           Aller au contenu
         </a>
